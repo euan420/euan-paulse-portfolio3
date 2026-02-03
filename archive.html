@@ -1,0 +1,1472 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Archive - Euan Paulse</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --navy: #0f172a;
+            --light-navy: #1e293b;
+            --lightest-navy: #334155;
+            --slate: #94a3b8;
+            --light-slate: #cbd5e1;
+            --lightest-slate: #e2e8f0;
+            --white: #f1f5f9;
+            --green: #5eead4;
+            --green-tint: rgba(94, 234, 212, 0.1);
+        }
+
+        /* Light theme variables */
+        body.light-theme {
+            --navy: #f8fafc;
+            --light-navy: #f1f5f9;
+            --lightest-navy: #e2e8f0;
+            --slate: #475569;
+            --light-slate: #334155;
+            --lightest-slate: #1e293b;
+            --white: #0f172a;
+            --green: #0d9488;
+            --green-tint: rgba(13, 148, 136, 0.1);
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, system-ui, sans-serif;
+            background-color: var(--navy);
+            color: var(--slate);
+            line-height: 1.6;
+            overflow-x: hidden;
+            position: relative;
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+
+        /* Mouse spotlight effect */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(600px circle at var(--mouse-x, 50%) var(--mouse-y, 50%), rgba(94, 234, 212, 0.15), transparent 80%);
+            pointer-events: none;
+            z-index: 1;
+            transition: opacity 0.3s ease;
+        }
+
+        /* Adjust spotlight for light theme - same intensity as dark */
+        body.light-theme::before {
+            background: radial-gradient(600px circle at var(--mouse-x, 50%) var(--mouse-y, 50%), rgba(13, 148, 136, 0.15), transparent 80%);
+        }
+
+        .container {
+            position: relative;
+            z-index: 2;
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 100px 50px;
+        }
+
+        .back-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            color: var(--green);
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 14px;
+            margin-bottom: 40px;
+            transition: all 0.3s ease;
+        }
+
+        .back-link:hover {
+            gap: 12px;
+        }
+
+        .back-link::before {
+            content: '←';
+        }
+
+        h1 {
+            font-size: 48px;
+            font-weight: 700;
+            color: var(--lightest-slate);
+            margin-bottom: 60px;
+            letter-spacing: -0.025em;
+        }
+
+        /* Table */
+        .projects-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .projects-table thead {
+            border-bottom: 1px solid rgba(148, 163, 184, 0.2);
+        }
+
+        .projects-table th {
+            text-align: left;
+            padding: 12px 16px;
+            font-size: 13px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: var(--lightest-slate);
+        }
+
+        .projects-table tbody tr {
+            border-bottom: 1px solid rgba(148, 163, 184, 0.1);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            cursor: pointer;
+        }
+
+        .projects-table tbody tr:hover {
+            background-color: rgba(148, 163, 184, 0.05);
+        }
+
+        .projects-table td {
+            padding: 24px 16px;
+            vertical-align: middle;
+        }
+
+        .year-cell {
+            font-size: 14px;
+            color: var(--green);
+            font-weight: 500;
+            width: 100px;
+        }
+
+        .project-cell {
+            font-size: 18px;
+            font-weight: 600;
+            color: var(--lightest-slate);
+            width: 20%;
+        }
+
+        .project-subtitle {
+            font-size: 13px;
+            font-weight: 400;
+            color: var(--slate);
+            margin-top: 4px;
+        }
+
+        .projects-table tbody tr:hover .project-cell {
+            color: var(--green);
+        }
+
+        .description-cell {
+            font-size: 14px;
+            color: var(--slate);
+            line-height: 1.6;
+            width: 35%;
+        }
+
+        .description-cell a {
+            color: var(--green);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .description-cell a:hover {
+            text-decoration: underline;
+        }
+
+        .links-cell {
+            width: 80px;
+            text-align: center;
+        }
+
+        .media-cell {
+            width: 200px;
+            position: relative;
+        }
+
+        .media-slider {
+            position: relative;
+            width: 180px;
+            height: 100px;
+            border-radius: 4px;
+            overflow: hidden;
+            background-color: rgba(148, 163, 184, 0.05);
+        }
+
+        .media-slider-track {
+            display: flex;
+            transition: transform 0.3s ease;
+            height: 100%;
+        }
+
+        .media-item {
+            flex: 0 0 100%;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .media-item img,
+        .media-item video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .media-nav {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background-color: rgba(0, 0, 0, 0.5);
+            color: white;
+            border: none;
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background-color 0.3s ease;
+            z-index: 2;
+        }
+
+        .media-nav:hover {
+            background-color: rgba(0, 0, 0, 0.7);
+        }
+
+        .media-nav.prev {
+            left: 4px;
+        }
+
+        .media-nav.next {
+            right: 4px;
+        }
+
+        .media-nav svg {
+            width: 12px;
+            height: 12px;
+        }
+
+        .media-dots {
+            position: absolute;
+            bottom: 4px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 4px;
+            z-index: 2;
+        }
+
+        .media-dot {
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background-color: rgba(255, 255, 255, 0.5);
+            transition: background-color 0.3s ease;
+        }
+
+        .media-dot.active {
+            background-color: var(--green);
+        }
+
+        .play-button {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 32px;
+            height: 32px;
+            background-color: rgba(0, 0, 0, 0.6);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            z-index: 3;
+            transition: background-color 0.3s ease;
+        }
+
+        .play-button:hover {
+            background-color: rgba(0, 0, 0, 0.8);
+        }
+
+        .play-button svg {
+            width: 14px;
+            height: 14px;
+            fill: white;
+            margin-left: 2px;
+        }
+
+        /* Media Modal/Lightbox */
+        .media-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.95);
+            z-index: 9999;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .media-modal.active {
+            display: flex;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .modal-content {
+            position: relative;
+            max-width: 90%;
+            max-height: 90%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-media-container {
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            max-width: 100%;
+            max-height: 90vh;
+        }
+
+        .modal-media-container img,
+        .modal-media-container video {
+            max-width: 100%;
+            max-height: 90vh;
+            object-fit: contain;
+            border-radius: 4px;
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            width: 40px;
+            height: 40px;
+            background-color: rgba(255, 255, 255, 0.1);
+            border: none;
+            border-radius: 50%;
+            color: white;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background-color 0.3s ease;
+            z-index: 10000;
+        }
+
+        .modal-close:hover {
+            background-color: rgba(255, 255, 255, 0.2);
+        }
+
+        .modal-close svg {
+            width: 24px;
+            height: 24px;
+        }
+
+        .modal-nav {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 50px;
+            height: 50px;
+            background-color: rgba(255, 255, 255, 0.1);
+            border: none;
+            border-radius: 50%;
+            color: white;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+            z-index: 10000;
+        }
+
+        .modal-nav:hover {
+            background-color: rgba(255, 255, 255, 0.2);
+            transform: translateY(-50%) scale(1.1);
+        }
+
+        .modal-nav.prev {
+            left: 30px;
+        }
+
+        .modal-nav.next {
+            right: 30px;
+        }
+
+        .modal-nav svg {
+            width: 24px;
+            height: 24px;
+        }
+
+        .modal-play-button {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 64px;
+            height: 64px;
+            background-color: rgba(255, 255, 255, 0.2);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            z-index: 10001;
+            transition: background-color 0.3s ease;
+        }
+
+        .modal-play-button:hover {
+            background-color: rgba(255, 255, 255, 0.3);
+        }
+
+        .modal-play-button svg {
+            width: 28px;
+            height: 28px;
+            fill: white;
+            margin-left: 4px;
+        }
+
+        .modal-counter {
+            position: absolute;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            color: white;
+            font-size: 14px;
+            font-weight: 500;
+            background-color: rgba(0, 0, 0, 0.5);
+            padding: 8px 16px;
+            border-radius: 20px;
+        }
+
+        @media (max-width: 768px) {
+            .modal-nav {
+                width: 40px;
+                height: 40px;
+            }
+
+            .modal-nav.prev {
+                left: 10px;
+            }
+
+            .modal-nav.next {
+                right: 10px;
+            }
+
+            .modal-close {
+                top: 10px;
+                right: 10px;
+            }
+        }
+
+        .project-link {
+            color: var(--slate);
+            text-decoration: none;
+            transition: color 0.3s ease;
+            display: inline-block;
+        }
+
+        .project-link:hover {
+            color: var(--green);
+        }
+
+        .project-link svg {
+            width: 20px;
+            height: 20px;
+        }
+
+        /* Light theme table adjustments */
+        body.light-theme .projects-table tbody tr:hover {
+            background-color: rgba(148, 163, 184, 0.08);
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .container {
+                padding: 60px 25px;
+            }
+
+            h1 {
+                font-size: 40px;
+            }
+
+            .projects-table,
+            .projects-table thead,
+            .projects-table tbody,
+            .projects-table tr,
+            .projects-table td,
+            .projects-table th {
+                display: block;
+            }
+
+            .projects-table thead {
+                display: none;
+            }
+
+            .projects-table tr {
+                margin-bottom: 30px;
+                padding: 20px;
+                border: 1px solid rgba(148, 163, 184, 0.2);
+                border-radius: 8px;
+            }
+
+            .projects-table td {
+                padding: 8px 0;
+                text-align: left !important;
+                width: 100% !important;
+            }
+
+            .year-cell {
+                font-size: 13px;
+                margin-bottom: 8px;
+            }
+
+            .project-cell {
+                font-size: 16px;
+                margin-bottom: 12px;
+            }
+
+            .description-cell {
+                margin-bottom: 12px;
+                font-size: 13px;
+            }
+
+            .links-cell {
+                width: 100%;
+                text-align: left;
+                margin: 12px 0;
+            }
+
+            .media-cell {
+                width: 100%;
+                margin-top: 12px;
+            }
+
+            .media-slider {
+                width: 100%;
+                height: 200px;
+            }
+        }
+
+        /* Archive Footer */
+        .archive-footer {
+            padding: 48px 0 40px;
+            margin-top: 60px;
+        }
+
+        .archive-footer-inner {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 28px;
+        }
+
+        .archive-footer-copy {
+            text-align: center;
+            color: var(--slate);
+            font-size: 14px;
+            margin-top: 20px;
+        }
+
+        .archive-social-link {
+            color: var(--slate);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            display: flex;
+            align-items: center;
+        }
+
+        .archive-social-link:hover {
+            color: var(--lightest-slate);
+            transform: translateY(-2px);
+        }
+
+        .archive-social-link svg {
+            width: 22px;
+            height: 22px;
+        }
+
+        /* Theme Switch */
+        .theme-switch {
+            --toggle-size: 6px;
+            --container-width: 5.625em;
+            --container-height: 2.5em;
+            --container-radius: 6.25em;
+            --container-light-bg: #3D7EAE;
+            --container-night-bg: #1D1F2C;
+            --circle-container-diameter: 3.375em;
+            --sun-moon-diameter: 2.125em;
+            --sun-bg: #ECCA2F;
+            --moon-bg: #C4C9D1;
+            --spot-color: #959DB1;
+            --circle-container-offset: calc((var(--circle-container-diameter) - var(--container-height)) / 2 * -1);
+            --stars-color: #fff;
+            --clouds-color: #F3FDFF;
+            --back-clouds-color: #AACADF;
+            --transition: .5s cubic-bezier(0, -0.02, 0.4, 1.25);
+            --circle-transition: .3s cubic-bezier(0, -0.02, 0.35, 1.17);
+        }
+
+        .theme-switch, .theme-switch *, .theme-switch *::before, .theme-switch *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-size: var(--toggle-size);
+        }
+
+        .theme-switch__container {
+            width: var(--container-width);
+            height: var(--container-height);
+            background-color: var(--container-light-bg);
+            border-radius: var(--container-radius);
+            overflow: hidden;
+            cursor: pointer;
+            box-shadow: 0em -0.062em 0.062em rgba(0, 0, 0, 0.25), 0em 0.062em 0.125em rgba(255, 255, 255, 0.94);
+            transition: var(--transition);
+            position: relative;
+        }
+
+        .theme-switch__container::before {
+            content: "";
+            position: absolute;
+            z-index: 1;
+            inset: 0;
+            box-shadow: 0em 0.05em 0.187em rgba(0, 0, 0, 0.25) inset, 0em 0.05em 0.187em rgba(0, 0, 0, 0.25) inset;
+            border-radius: var(--container-radius);
+        }
+
+        .theme-switch__checkbox {
+            display: none;
+        }
+
+        .theme-switch__circle-container {
+            width: var(--circle-container-diameter);
+            height: var(--circle-container-diameter);
+            background-color: rgba(255, 255, 255, 0.1);
+            position: absolute;
+            left: var(--circle-container-offset);
+            top: var(--circle-container-offset);
+            border-radius: var(--container-radius);
+            box-shadow: inset 0 0 0 3.375em rgba(255, 255, 255, 0.1), inset 0 0 0 3.375em rgba(255, 255, 255, 0.1), 0 0 0 0.625em rgba(255, 255, 255, 0.1), 0 0 0 1.25em rgba(255, 255, 255, 0.1);
+            display: flex;
+            transition: var(--circle-transition);
+            pointer-events: none;
+        }
+
+        .theme-switch__sun-moon-container {
+            pointer-events: auto;
+            position: relative;
+            z-index: 2;
+            width: var(--sun-moon-diameter);
+            height: var(--sun-moon-diameter);
+            margin: auto;
+            border-radius: var(--container-radius);
+            background-color: var(--sun-bg);
+            box-shadow: 0.062em 0.062em 0.062em 0em rgba(254, 255, 239, 0.61) inset, 0em -0.062em 0.062em 0em #a1872a inset;
+            filter: drop-shadow(0.062em 0.125em 0.125em rgba(0, 0, 0, 0.25)) drop-shadow(0em 0.062em 0.125em rgba(0, 0, 0, 0.25));
+            overflow: hidden;
+            transition: var(--transition);
+        }
+
+        .theme-switch__moon {
+            transform: translateX(100%);
+            width: 100%;
+            height: 100%;
+            background-color: var(--moon-bg);
+            border-radius: inherit;
+            box-shadow: 0.062em 0.062em 0.062em 0em rgba(254, 255, 239, 0.61) inset, 0em -0.062em 0.062em 0em #969696 inset;
+            transition: var(--transition);
+            position: relative;
+        }
+
+        .theme-switch__spot {
+            position: absolute;
+            top: 0.75em;
+            left: 0.312em;
+            width: 0.75em;
+            height: 0.75em;
+            border-radius: var(--container-radius);
+            background-color: var(--spot-color);
+            box-shadow: 0em 0.0312em 0.062em rgba(0, 0, 0, 0.25) inset;
+        }
+
+        .theme-switch__spot:nth-of-type(2) {
+            width: 0.375em;
+            height: 0.375em;
+            top: 0.937em;
+            left: 1.375em;
+        }
+
+        .theme-switch__spot:nth-last-of-type(3) {
+            width: 0.25em;
+            height: 0.25em;
+            top: 0.312em;
+            left: 0.812em;
+        }
+
+        .theme-switch__clouds {
+            width: 1.25em;
+            height: 1.25em;
+            background-color: var(--clouds-color);
+            border-radius: var(--container-radius);
+            position: absolute;
+            bottom: -0.625em;
+            left: 0.312em;
+            box-shadow: 0.937em 0.312em var(--clouds-color), -0.312em -0.312em var(--back-clouds-color), 1.437em 0.375em var(--clouds-color), 0.5em -0.125em var(--back-clouds-color), 2.187em 0 var(--clouds-color), 1.25em -0.062em var(--back-clouds-color), 2.937em 0.312em var(--clouds-color), 2em -0.312em var(--back-clouds-color), 3.625em -0.062em var(--clouds-color), 2.625em 0em var(--back-clouds-color), 4.5em -0.312em var(--clouds-color), 3.375em -0.437em var(--back-clouds-color), 4.625em -1.75em 0 0.437em var(--clouds-color), 4em -0.625em var(--back-clouds-color), 4.125em -2.125em 0 0.437em var(--back-clouds-color);
+            transition: 0.5s cubic-bezier(0, -0.02, 0.4, 1.25);
+        }
+
+        .theme-switch__stars-container {
+            position: absolute;
+            color: var(--stars-color);
+            top: -100%;
+            left: 0.312em;
+            width: 2.75em;
+            height: auto;
+            transform: translateY(0);
+            transition: var(--transition);
+        }
+
+        .theme-switch__checkbox:checked + .theme-switch__container {
+            background-color: var(--container-night-bg);
+        }
+
+        .theme-switch__checkbox:checked + .theme-switch__container .theme-switch__circle-container {
+            left: calc(100% - var(--circle-container-offset) - var(--circle-container-diameter));
+        }
+
+        .theme-switch__circle-container:hover {
+            left: calc(var(--circle-container-offset) + 0.187em);
+        }
+
+        .theme-switch__checkbox:checked + .theme-switch__container .theme-switch__circle-container:hover {
+            left: calc(100% - var(--circle-container-offset) - var(--circle-container-diameter) - 0.187em);
+        }
+
+        .theme-switch__checkbox:checked + .theme-switch__container .theme-switch__moon {
+            transform: translateX(0);
+        }
+
+        .theme-switch__checkbox:checked + .theme-switch__container .theme-switch__clouds {
+            bottom: -4.062em;
+        }
+
+        .theme-switch__checkbox:checked + .theme-switch__container .theme-switch__stars-container {
+            top: 50%;
+            transform: translateY(-50%);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <a href="index.html" class="back-link">Home</a>
+
+        <h1>Featured Projects</h1>
+
+        <table class="projects-table">
+            <thead>
+                <tr>
+                    <th>Year</th>
+                    <th>Project</th>
+                    <th>Description</th>
+                    <th class="links-cell">Link</th>
+                    <th>Media</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td class="year-cell">2025</td>
+                    <td class="project-cell">
+                        RatioWeb3
+                        <div class="project-subtitle">Community Manager</div>
+                    </td>
+                    <td class="description-cell">Digital marketing agency focused on performance marketing, viral community building, and growth strategies for digital startups.</td>
+                    <td class="links-cell">
+                        <a href="https://www.ratioweb3.com/#home" class="project-link" target="_blank" title="View project" aria-label="View project">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
+                                <polyline points="15 3 21 3 21 9"></polyline>
+                                <line x1="10" y1="14" x2="21" y2="3"></line>
+                            </svg>
+                        </a>
+                    </td>
+                    <td class="media-cell">
+                        <div class="media-slider" data-media='[{"type":"video","src":"ratio-1.mp4"}]'>
+                            <div class="media-slider-track"></div>
+                            <div class="media-dots"></div>
+                        </div>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="year-cell">2024 — 2026</td>
+                    <td class="project-cell">
+                        Reign of Titans
+                        <div class="project-subtitle">Lead Moderator</div>
+                    </td>
+                    <td class="description-cell">Enter the world of Ereo through RoT, a multiplayer PVP strategic card game. Available on PC, Google Play and the App Store.</td>
+                    <td class="links-cell">
+                        <a href="https://reignoftitans.gg/" class="project-link" target="_blank" title="Try Game" aria-label="Try Game">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
+                                <polyline points="15 3 21 3 21 9"></polyline>
+                                <line x1="10" y1="14" x2="21" y2="3"></line>
+                            </svg>
+                        </a>
+                    </td>
+                    <td class="media-cell">
+                        <div class="media-slider" data-media='[{"type":"image","src":"rot-1.jpg"},{"type":"image","src":"rot-2.png"},{"type":"image","src":"rot-3.jpg"},{"type":"image","src":"rot-4.jpg"},{"type":"image","src":"rot-5.png"}]'>
+                            <div class="media-slider-track"></div>
+                            <button class="media-nav prev" aria-label="Previous media">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <polyline points="15 18 9 12 15 6"></polyline>
+                                </svg>
+                            </button>
+                            <button class="media-nav next" aria-label="Next media">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <polyline points="9 18 15 12 9 6"></polyline>
+                                </svg>
+                            </button>
+                            <div class="media-dots"></div>
+                        </div>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="year-cell">2024</td>
+                    <td class="project-cell">
+                        Astra Anima (Sol Survivor)
+                        <div class="project-subtitle">Community Manager</div>
+                    </td>
+                    <td class="description-cell">Astra Anima was the official project behind Sol Survivor, a quick-roguelike/adventure game. Players could play the game as any avatar based on prominent Solana figures.</td>
+                    <td class="links-cell">
+                        <a href="https://arcjamie.itch.io/sol-legends" class="project-link" target="_blank" title="Try Game" aria-label="Try Game">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
+                                <polyline points="15 3 21 3 21 9"></polyline>
+                                <line x1="10" y1="14" x2="21" y2="3"></line>
+                            </svg>
+                        </a>
+                    </td>
+                    <td class="media-cell">
+                        <div class="media-slider" data-media='[{"type":"image","src":"astra-1.jpg"},{"type":"image","src":"astra-2.png"},{"type":"video","src":"astra-3.mp4"}]'>
+                            <div class="media-slider-track"></div>
+                            <button class="media-nav prev" aria-label="Previous media">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <polyline points="15 18 9 12 15 6"></polyline>
+                                </svg>
+                            </button>
+                            <button class="media-nav next" aria-label="Next media">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <polyline points="9 18 15 12 9 6"></polyline>
+                                </svg>
+                            </button>
+                            <div class="media-dots"></div>
+                        </div>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="year-cell">2023 — 2025</td>
+                    <td class="project-cell">
+                        SILICONS
+                        <div class="project-subtitle">Community Manager / Social Media Manager</div>
+                    </td>
+                    <td class="description-cell">SILICONS is a high-end 3D fashion collectible, designed around the ABSTRCT clothing brand. ABSTRCT was a clothing brand designed by the CAW Studio team. The launch rolled out their SS24' Capsule Collection line.</td>
+                    <td class="links-cell">
+                        <a href="https://x.com/SILICONS_CAW" class="project-link" target="_blank" title="View project" aria-label="View project">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
+                                <polyline points="15 3 21 3 21 9"></polyline>
+                                <line x1="10" y1="14" x2="21" y2="3"></line>
+                            </svg>
+                        </a>
+                    </td>
+                    <td class="media-cell">
+                        <div class="media-slider" data-media='[{"type":"image","src":"silicons-1.png"},{"type":"video","src":"silicons-2.mp4"},{"type":"video","src":"silicons-3.mp4"},{"type":"image","src":"silicons-4.png"},{"type":"video","src":"silicons-5.mp4"}]'>
+                            <div class="media-slider-track"></div>
+                            <button class="media-nav prev" aria-label="Previous media">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <polyline points="15 18 9 12 15 6"></polyline>
+                                </svg>
+                            </button>
+                            <button class="media-nav next" aria-label="Next media">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <polyline points="9 18 15 12 9 6"></polyline>
+                                </svg>
+                            </button>
+                            <div class="media-dots"></div>
+                        </div>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="year-cell">2022 — 2023</td>
+                    <td class="project-cell">
+                        Excellerate
+                        <div class="project-subtitle">Community Manager / Head of Outreach</div>
+                    </td>
+                    <td class="description-cell">Excellerate is a community management and operations services company that provides outsourced community, social media, and support teams to businesses across Web3 and digital industries.</td>
+                    <td class="links-cell">
+                        <a href="https://www.linkedin.com/company/excellerateweb3/" class="project-link" target="_blank" title="View project" aria-label="View project">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
+                                <polyline points="15 3 21 3 21 9"></polyline>
+                                <line x1="10" y1="14" x2="21" y2="3"></line>
+                            </svg>
+                        </a>
+                    </td>
+                    <td class="media-cell">
+                        <div style="width: 180px; height: 100px; display: flex; align-items: center; justify-content: center; background-color: rgba(148, 163, 184, 0.05); border-radius: 4px;">
+                            <img src="excellerate-logo.jpg" alt="Excellerate logo" style="max-width: 140px; max-height: 80px; object-fit: contain;">
+                        </div>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="year-cell">2022</td>
+                    <td class="project-cell">
+                        RebelPoker
+                        <div class="project-subtitle">Partnership Manager</div>
+                    </td>
+                    <td class="description-cell">RebelPoker is a fully developed poker platform offering dozens of different ring games (Texas Hold'em, Omaha, etc.), tournament variations and speed play.</td>
+                    <td class="links-cell">
+                        <!-- No link -->
+                    </td>
+                    <td class="media-cell">
+                        <div class="media-slider" data-media='[{"type":"image","src":"rebelpoker-1.jpg"},{"type":"image","src":"rebelpoker-2.jpg"},{"type":"image","src":"rebelpoker-3.jpg"}]'>
+                            <div class="media-slider-track"></div>
+                            <button class="media-nav prev" aria-label="Previous media">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <polyline points="15 18 9 12 15 6"></polyline>
+                                </svg>
+                            </button>
+                            <button class="media-nav next" aria-label="Next media">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <polyline points="9 18 15 12 9 6"></polyline>
+                                </svg>
+                            </button>
+                            <div class="media-dots"></div>
+                        </div>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="year-cell">2022</td>
+                    <td class="project-cell">
+                        Unchained: Kingmaker
+                        <div class="project-subtitle">Moderator</div>
+                    </td>
+                    <td class="description-cell">Unchained is the first cross-chain gaming project, #ETHUnchained vs #SOLUnchained</td>
+                    <td class="links-cell">
+                        <!-- No link -->
+                    </td>
+                    <td class="media-cell">
+                        <div class="media-slider" data-media='[{"type":"video","src":"unchained-1.mp4"},{"type":"video","src":"unchained-2.mp4"}]'>
+                            <div class="media-slider-track"></div>
+                            <button class="media-nav prev" aria-label="Previous media">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <polyline points="15 18 9 12 15 6"></polyline>
+                                </svg>
+                            </button>
+                            <button class="media-nav next" aria-label="Next media">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <polyline points="9 18 15 12 9 6"></polyline>
+                                </svg>
+                            </button>
+                            <div class="media-dots"></div>
+                        </div>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="year-cell">2022</td>
+                    <td class="project-cell">
+                        Sovana
+                        <div class="project-subtitle">Moderator</div>
+                    </td>
+                    <td class="description-cell">Sovana is an interoperable metaverse platform built to visualise the Solana NFT space, and arguably Solana's solution to the metaverse. Sovana aims to bring back the popularity of web-based MMORPGs, such as Club Penguin & Runescape with Web3.0 elements. Users are able to enter Sovana as their NFT avatar, providing an identity that users can resonate with.</td>
+                    <td class="links-cell">
+                        <a href="https://ryfo.medium.com/solanas-answer-to-the-metaverse-sovanadao-355244848383" class="project-link" target="_blank" title="View project" aria-label="View project">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
+                                <polyline points="15 3 21 3 21 9"></polyline>
+                                <line x1="10" y1="14" x2="21" y2="3"></line>
+                            </svg>
+                        </a>
+                    </td>
+                    <td class="media-cell">
+                        <div class="media-slider" data-media='[{"type":"image","src":"sovana-1.gif"},{"type":"image","src":"sovana-2.jpg"},{"type":"image","src":"sovana-3.gif"}]'>
+                            <div class="media-slider-track"></div>
+                            <button class="media-nav prev" aria-label="Previous media">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <polyline points="15 18 9 12 15 6"></polyline>
+                                </svg>
+                            </button>
+                            <button class="media-nav next" aria-label="Next media">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <polyline points="9 18 15 12 9 6"></polyline>
+                                </svg>
+                            </button>
+                            <div class="media-dots"></div>
+                        </div>
+                    </td>
+                </tr>
+
+                <!-- Add more project rows as needed -->
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Archive Footer -->
+    <footer class="archive-footer">
+        <div class="archive-footer-inner">
+            <a href="https://www.linkedin.com/in/euan-paulse-585b6b237" target="_blank" class="archive-social-link" title="LinkedIn" aria-label="LinkedIn">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path>
+                    <rect x="2" y="9" width="4" height="12"></rect>
+                    <circle cx="4" cy="4" r="2"></circle>
+                </svg>
+            </a>
+            <a href="https://x.com/3uan__" target="_blank" class="archive-social-link" title="X (Twitter)" aria-label="X (Twitter)">
+                <svg viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
+                </svg>
+            </a>
+            <label class="theme-switch" title="Toggle theme" aria-label="Toggle theme">
+                <input type="checkbox" class="theme-switch__checkbox" id="theme-toggle">
+                <div class="theme-switch__container">
+                    <div class="theme-switch__clouds"></div>
+                    <div class="theme-switch__stars-container">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 144 55" fill="none">
+                            <path fill-rule="evenodd" clip-rule="evenodd" d="M135.831 3.00688C135.055 3.85027 134.111 4.29946 133 4.35447C134.111 4.40947 135.055 4.85867 135.831 5.71123C136.607 6.55462 136.996 7.56303 136.996 8.72727C136.996 7.95722 137.172 7.25134 137.525 6.59129C137.886 5.93124 138.372 5.39954 138.98 5.00535C139.598 4.60199 140.268 4.39114 141 4.35447C139.88 4.2903 138.936 3.85027 138.16 3.00688C137.384 2.16348 136.996 1.16425 136.996 0C136.996 1.16425 136.607 2.16348 135.831 3.00688ZM31 23.3545C32.1114 23.2995 33.0551 22.8503 33.8313 22.0069C34.6075 21.1635 34.9956 20.1642 34.9956 19C34.9956 20.1642 35.3837 21.1635 36.1599 22.0069C36.9361 22.8503 37.8798 23.2903 39 23.3545C38.2679 23.3911 37.5976 23.602 36.9802 24.0053C36.3716 24.3995 35.8864 24.9312 35.5248 25.5913C35.172 26.2513 34.9956 26.9572 34.9956 27.7273C34.9956 26.563 34.6075 25.5546 33.8313 24.7112C33.0551 23.8587 32.1114 23.4095 31 23.3545ZM0 36.3545C1.11136 36.2995 2.05513 35.8503 2.83131 35.0069C3.6075 34.1635 3.99559 33.1642 3.99559 32C3.99559 33.1642 4.38368 34.1635 5.15987 35.0069C5.93605 35.8503 6.87982 36.2903 8 36.3545C7.26792 36.3911 6.59757 36.602 5.98015 37.0053C5.37155 37.3995 4.88644 37.9312 4.52481 38.5913C4.172 39.2513 3.99559 39.9572 3.99559 40.7273C3.99559 39.563 3.6075 38.5546 2.83131 37.7112C2.05513 36.8587 1.11136 36.4095 0 36.3545ZM56.8313 24.0069C56.0551 24.8503 55.1114 25.2995 54 25.3545C55.1114 25.4095 56.0551 25.8587 56.8313 26.7112C57.6075 27.5546 57.9956 28.563 57.9956 29.7273C57.9956 28.9572 58.172 28.2513 58.5248 27.5913C58.8864 26.9312 59.3716 26.3995 59.9802 26.0053C60.5976 25.602 61.2679 25.3911 62 25.3545C60.8798 25.2903 59.9361 24.8503 59.1599 24.0069C58.3837 23.1635 57.9956 22.1642 57.9956 21C57.9956 22.1642 57.6075 23.1635 56.8313 24.0069ZM81 25.3545C82.1114 25.2995 83.0551 24.8503 83.8313 24.0069C84.6075 23.1635 84.9956 22.1642 84.9956 21C84.9956 22.1642 85.3837 23.1635 86.1599 24.0069C86.9361 24.8503 87.8798 25.2903 89 25.3545C88.2679 25.3911 87.5976 25.602 86.9802 26.0053C86.3716 26.3995 85.8864 26.9312 85.5248 27.5913C85.172 28.2513 84.9956 28.9572 84.9956 29.7273C84.9956 28.563 84.6075 27.5546 83.8313 26.7112C83.0551 25.8587 82.1114 25.4095 81 25.3545ZM136 36.3545C137.111 36.2995 138.055 35.8503 138.831 35.0069C139.607 34.1635 139.996 33.1642 139.996 32C139.996 33.1642 140.384 34.1635 141.16 35.0069C141.936 35.8503 142.88 36.2903 144 36.3545C143.268 36.3911 142.598 36.602 141.98 37.0053C141.372 37.3995 140.886 37.9312 140.525 38.5913C140.172 39.2513 139.996 39.9572 139.996 40.7273C139.996 39.563 139.607 38.5546 138.831 37.7112C138.055 36.8587 137.111 36.4095 136 36.3545ZM101.831 49.0069C101.055 49.8503 100.111 50.2995 99 50.3545C100.111 50.4095 101.055 50.8587 101.831 51.7112C102.607 52.5546 102.996 53.563 102.996 54.7273C102.996 53.9572 103.172 53.2513 103.525 52.5913C103.886 51.9312 104.372 51.3995 104.98 51.0053C105.598 50.602 106.268 50.3911 107 50.3545C105.88 50.2903 104.936 49.8503 104.16 49.0069C103.384 48.1635 102.996 47.1642 102.996 46C102.996 47.1642 102.607 48.1635 101.831 49.0069Z" fill="currentColor" />
+                        </svg>
+                    </div>
+                    <div class="theme-switch__circle-container">
+                        <div class="theme-switch__sun-moon-container">
+                            <div class="theme-switch__moon">
+                                <div class="theme-switch__spot"></div>
+                                <div class="theme-switch__spot"></div>
+                                <div class="theme-switch__spot"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </label>
+        </div>
+        <p class="archive-footer-copy">© 2026 Euan Paulse. Designed with purpose.</p>
+    </footer>
+
+    <!-- Media Modal -->
+    <div class="media-modal" id="mediaModal">
+        <button class="modal-close" id="modalClose" aria-label="Close modal">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <line x1="18" y1="6" x2="6" y2="18"></line>
+                <line x1="6" y1="6" x2="18" y2="18"></line>
+            </svg>
+        </button>
+
+        <button class="modal-nav prev" id="modalPrev" aria-label="Previous media">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <polyline points="15 18 9 12 15 6"></polyline>
+            </svg>
+        </button>
+
+        <div class="modal-content">
+            <div class="modal-media-container" id="modalMediaContainer">
+                <!-- Media will be inserted here -->
+            </div>
+        </div>
+
+        <button class="modal-nav next" id="modalNext" aria-label="Next media">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <polyline points="9 18 15 12 9 6"></polyline>
+            </svg>
+        </button>
+
+        <div class="modal-counter" id="modalCounter">1 / 1</div>
+    </div>
+
+    <script>
+        // Mouse spotlight effect
+        document.addEventListener('mousemove', (e) => {
+            const x = (e.clientX / window.innerWidth) * 100;
+            const y = (e.clientY / window.innerHeight) * 100;
+            document.documentElement.style.setProperty('--mouse-x', `${x}%`);
+            document.documentElement.style.setProperty('--mouse-y', `${y}%`);
+        });
+
+        // Media Modal Manager
+        class MediaModal {
+            constructor() {
+                this.modal = document.getElementById('mediaModal');
+                this.container = document.getElementById('modalMediaContainer');
+                this.closeBtn = document.getElementById('modalClose');
+                this.prevBtn = document.getElementById('modalPrev');
+                this.nextBtn = document.getElementById('modalNext');
+                this.counter = document.getElementById('modalCounter');
+                this.media = [];
+                this.currentIndex = 0;
+                
+                this.attachEvents();
+            }
+
+            attachEvents() {
+                this.closeBtn.addEventListener('click', () => this.close());
+                this.prevBtn.addEventListener('click', () => this.prev());
+                this.nextBtn.addEventListener('click', () => this.next());
+                
+                // Click outside to close
+                this.modal.addEventListener('click', (e) => {
+                    if (e.target === this.modal) {
+                        this.close();
+                    }
+                });
+
+                // Keyboard navigation
+                document.addEventListener('keydown', (e) => {
+                    if (!this.modal.classList.contains('active')) return;
+                    
+                    if (e.key === 'Escape') this.close();
+                    if (e.key === 'ArrowLeft') this.prev();
+                    if (e.key === 'ArrowRight') this.next();
+                });
+            }
+
+            open(media, startIndex = 0) {
+                this.media = media;
+                this.currentIndex = startIndex;
+                this.render();
+                this.modal.classList.add('active');
+                document.body.style.overflow = 'hidden';
+            }
+
+            close() {
+                this.pauseVideo();
+                this.modal.classList.remove('active');
+                document.body.style.overflow = '';
+            }
+
+            render() {
+                const item = this.media[this.currentIndex];
+                this.container.innerHTML = '';
+
+                if (item.type === 'video') {
+                    const video = document.createElement('video');
+                    video.src = item.src;
+                    video.controls = true;
+                    video.autoplay = false;
+                    
+                    const playBtn = document.createElement('div');
+                    playBtn.className = 'modal-play-button';
+                    playBtn.innerHTML = '<svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>';
+                    
+                    playBtn.addEventListener('click', () => {
+                        if (video.paused) {
+                            video.play();
+                            playBtn.style.display = 'none';
+                        }
+                    });
+                    
+                    video.addEventListener('click', () => {
+                        if (!video.paused) {
+                            video.pause();
+                            playBtn.style.display = 'flex';
+                        }
+                    });
+                    
+                    video.addEventListener('play', () => {
+                        playBtn.style.display = 'none';
+                    });
+                    
+                    video.addEventListener('pause', () => {
+                        playBtn.style.display = 'flex';
+                    });
+                    
+                    video.addEventListener('ended', () => {
+                        playBtn.style.display = 'flex';
+                    });
+                    
+                    this.container.appendChild(video);
+                    this.container.appendChild(playBtn);
+                } else {
+                    const img = document.createElement('img');
+                    img.src = item.src;
+                    img.alt = `Project media ${this.currentIndex + 1}`;
+                    this.container.appendChild(img);
+                }
+
+                // Update counter
+                this.counter.textContent = `${this.currentIndex + 1} / ${this.media.length}`;
+
+                // Hide/show nav buttons
+                this.prevBtn.style.display = this.media.length > 1 ? 'flex' : 'none';
+                this.nextBtn.style.display = this.media.length > 1 ? 'flex' : 'none';
+            }
+
+            next() {
+                this.pauseVideo();
+                this.currentIndex = (this.currentIndex + 1) % this.media.length;
+                this.render();
+            }
+
+            prev() {
+                this.pauseVideo();
+                this.currentIndex = (this.currentIndex - 1 + this.media.length) % this.media.length;
+                this.render();
+            }
+
+            pauseVideo() {
+                const video = this.container.querySelector('video');
+                if (video && !video.paused) {
+                    video.pause();
+                }
+            }
+        }
+
+        // Initialize modal
+        const modal = new MediaModal();
+
+        // Media Slider Functionality
+        class MediaSlider {
+            constructor(element) {
+                this.element = element;
+                this.track = element.querySelector('.media-slider-track');
+                this.dotsContainer = element.querySelector('.media-dots');
+                this.prevBtn = element.querySelector('.media-nav.prev');
+                this.nextBtn = element.querySelector('.media-nav.next');
+                this.currentIndex = 0;
+                
+                // Parse media data from data attribute
+                try {
+                    this.media = JSON.parse(element.getAttribute('data-media') || '[]');
+                } catch (e) {
+                    this.media = [];
+                }
+                
+                if (this.media.length > 0) {
+                    this.init();
+                }
+            }
+
+            init() {
+                this.renderMedia();
+                this.renderDots();
+                this.attachEvents();
+                
+                // Hide nav buttons if only one item
+                if (this.media.length <= 1) {
+                    if (this.prevBtn) this.prevBtn.style.display = 'none';
+                    if (this.nextBtn) this.nextBtn.style.display = 'none';
+                }
+            }
+
+            renderMedia() {
+                this.track.innerHTML = '';
+                
+                this.media.forEach((item, index) => {
+                    const mediaItem = document.createElement('div');
+                    mediaItem.className = 'media-item';
+                    mediaItem.style.cursor = 'pointer';
+                    
+                    // Add click to expand
+                    mediaItem.addEventListener('click', (e) => {
+                        e.stopPropagation();
+                        modal.open(this.media, index);
+                    });
+                    
+                    if (item.type === 'video') {
+                        const video = document.createElement('video');
+                        video.src = item.src;
+                        video.muted = true;
+                        video.loop = false;
+                        video.playsInline = true;
+                        
+                        const playBtn = document.createElement('div');
+                        playBtn.className = 'play-button';
+                        playBtn.innerHTML = '<svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>';
+                        
+                        playBtn.addEventListener('click', (e) => {
+                            e.stopPropagation();
+                            if (video.paused) {
+                                video.play();
+                                playBtn.style.display = 'none';
+                            }
+                        });
+                        
+                        video.addEventListener('click', (e) => {
+                            e.stopPropagation();
+                            if (!video.paused) {
+                                video.pause();
+                                playBtn.style.display = 'flex';
+                            } else {
+                                // If paused, open modal instead
+                                modal.open(this.media, index);
+                            }
+                        });
+                        
+                        video.addEventListener('ended', () => {
+                            playBtn.style.display = 'flex';
+                        });
+                        
+                        mediaItem.appendChild(video);
+                        mediaItem.appendChild(playBtn);
+                    } else {
+                        const img = document.createElement('img');
+                        img.src = item.src;
+                        img.alt = `Project media ${index + 1}`;
+                        mediaItem.appendChild(img);
+                    }
+                    
+                    this.track.appendChild(mediaItem);
+                });
+            }
+
+            renderDots() {
+                if (this.media.length <= 1) {
+                    this.dotsContainer.style.display = 'none';
+                    return;
+                }
+                
+                this.dotsContainer.innerHTML = '';
+                this.media.forEach((_, index) => {
+                    const dot = document.createElement('div');
+                    dot.className = `media-dot ${index === 0 ? 'active' : ''}`;
+                    dot.addEventListener('click', (e) => {
+                        e.stopPropagation();
+                        this.goTo(index);
+                    });
+                    this.dotsContainer.appendChild(dot);
+                });
+            }
+
+            attachEvents() {
+                if (this.prevBtn) {
+                    this.prevBtn.addEventListener('click', (e) => {
+                        e.stopPropagation();
+                        this.prev();
+                    });
+                }
+                
+                if (this.nextBtn) {
+                    this.nextBtn.addEventListener('click', (e) => {
+                        e.stopPropagation();
+                        this.next();
+                    });
+                }
+            }
+
+            goTo(index) {
+                // Pause any playing videos
+                this.pauseVideos();
+                
+                this.currentIndex = index;
+                this.track.style.transform = `translateX(-${index * 100}%)`;
+                
+                // Update dots
+                const dots = this.dotsContainer.querySelectorAll('.media-dot');
+                dots.forEach((dot, i) => {
+                    dot.classList.toggle('active', i === index);
+                });
+            }
+
+            next() {
+                if (this.currentIndex < this.media.length - 1) {
+                    this.goTo(this.currentIndex + 1);
+                } else {
+                    this.goTo(0);
+                }
+            }
+
+            prev() {
+                if (this.currentIndex > 0) {
+                    this.goTo(this.currentIndex - 1);
+                } else {
+                    this.goTo(this.media.length - 1);
+                }
+            }
+
+            pauseVideos() {
+                const videos = this.track.querySelectorAll('video');
+                videos.forEach(video => {
+                    if (!video.paused) {
+                        video.pause();
+                        const playBtn = video.nextElementSibling;
+                        if (playBtn && playBtn.classList.contains('play-button')) {
+                            playBtn.style.display = 'flex';
+                        }
+                    }
+                });
+            }
+        }
+
+        // Initialize all media sliders
+        document.querySelectorAll('.media-slider').forEach(slider => {
+            new MediaSlider(slider);
+        });
+
+        // Make table rows clickable (excluding media sliders)
+        document.querySelectorAll('.projects-table tbody tr').forEach(row => {
+            row.addEventListener('click', function(e) {
+                // Don't trigger if clicking on media slider or links
+                if (e.target.closest('.media-slider') || e.target.closest('a')) {
+                    return;
+                }
+                
+                const link = this.querySelector('.project-link');
+                if (link && link.href && link.href !== '#') {
+                    window.open(link.href, '_blank');
+                }
+            });
+        });
+
+        // Theme Toggle Functionality
+        function initThemeToggle() {
+            const themeToggle = document.getElementById('theme-toggle');
+            const currentTheme = localStorage.getItem('theme') || 'dark';
+
+            if (currentTheme === 'light') {
+                document.body.classList.add('light-theme');
+                themeToggle.checked = true;
+            }
+
+            themeToggle.addEventListener('change', function() {
+                if (this.checked) {
+                    document.body.classList.add('light-theme');
+                    localStorage.setItem('theme', 'light');
+                } else {
+                    document.body.classList.remove('light-theme');
+                    localStorage.setItem('theme', 'dark');
+                }
+            });
+        }
+
+        window.addEventListener('load', initThemeToggle);
+    </script>
+</body>
+</html>
