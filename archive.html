@@ -578,193 +578,6 @@
             object-fit: contain;
         }
 
-        /* Time Machine */
-        .time-machine {
-            padding: 80px 10% 60px;
-            background: var(--ink);
-            position: relative;
-            overflow: hidden;
-        }
-
-        .time-machine::before {
-            content: '';
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            width: 600px;
-            height: 600px;
-            background: radial-gradient(circle, var(--mint-dim) 0%, transparent 70%);
-            pointer-events: none;
-            animation: pulse 4s ease-in-out infinite;
-        }
-
-        @keyframes pulse {
-            0%, 100% { opacity: 0.5; transform: translate(-50%, -50%) scale(1); }
-            50% { opacity: 0.8; transform: translate(-50%, -50%) scale(1.1); }
-        }
-
-        .time-machine-content {
-            max-width: 800px;
-            margin: 0 auto;
-            text-align: center;
-            position: relative;
-            z-index: 1;
-        }
-
-        .time-machine-label {
-            font-size: 12px;
-            font-weight: 600;
-            letter-spacing: 0.15em;
-            text-transform: uppercase;
-            color: var(--mint);
-            margin-bottom: 40px;
-        }
-
-        .portal-container {
-            position: relative;
-            width: 200px;
-            height: 200px;
-            margin: 0 auto 48px;
-        }
-
-        .portal-rings {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            width: 100%;
-            height: 100%;
-        }
-
-        .portal-ring {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            border: 2px solid var(--mint);
-            border-radius: 50%;
-            opacity: 0.3;
-            animation: portalPulse 3s ease-in-out infinite;
-        }
-
-        .portal-ring-1 {
-            width: 100%;
-            height: 100%;
-            animation-delay: 0s;
-        }
-
-        .portal-ring-2 {
-            width: 75%;
-            height: 75%;
-            animation-delay: 0.5s;
-        }
-
-        .portal-ring-3 {
-            width: 50%;
-            height: 50%;
-            animation-delay: 1s;
-        }
-
-        @keyframes portalPulse {
-            0%, 100% {
-                transform: translate(-50%, -50%) scale(1);
-                opacity: 0.3;
-            }
-            50% {
-                transform: translate(-50%, -50%) scale(1.1);
-                opacity: 0.6;
-            }
-        }
-
-        .tardis-icon {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            width: 80px;
-            height: 80px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            animation: float 3s ease-in-out infinite;
-            filter: drop-shadow(0 0 20px var(--mint-glow));
-        }
-
-        @keyframes float {
-            0%, 100% { transform: translate(-50%, -50%) translateY(0); }
-            50% { transform: translate(-50%, -50%) translateY(-10px); }
-        }
-
-        .tardis-icon img {
-            width: 100%;
-            height: 100%;
-            object-fit: contain;
-        }
-
-        .version-buttons {
-            display: flex;
-            gap: 24px;
-            justify-content: center;
-            align-items: center;
-        }
-
-        .version-btn,
-        .version-current {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            padding: 20px 32px;
-            border-radius: 16px;
-            border: 1px solid rgba(255,255,255,0.1);
-            background: var(--ink-lighter);
-            min-width: 140px;
-            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-        }
-
-        .version-btn {
-            text-decoration: none;
-            cursor: pointer;
-        }
-
-        .version-btn:hover {
-            border-color: var(--mint);
-            background: var(--ink-light);
-            transform: translateY(-4px);
-            box-shadow: 0 12px 32px rgba(45, 212, 191, 0.2);
-        }
-
-        .version-current {
-            background: linear-gradient(135deg, var(--mint) 0%, var(--mint-glow) 100%);
-            border-color: var(--mint);
-            box-shadow: 0 8px 24px rgba(45, 212, 191, 0.3);
-        }
-
-        .version-number {
-            font-family: 'DM Sans', sans-serif;
-            font-size: 24px;
-            font-weight: 700;
-            color: var(--white);
-            margin-bottom: 4px;
-        }
-
-        .version-current .version-number {
-            color: var(--ink);
-        }
-
-        .version-desc {
-            font-size: 12px;
-            font-weight: 500;
-            color: var(--smoke);
-            text-transform: uppercase;
-            letter-spacing: 0.05em;
-        }
-
-        .version-current .version-desc {
-            color: var(--ink);
-            opacity: 0.8;
-        }
-
         /* Footer */
         footer {
             padding: 48px 10%;
@@ -912,34 +725,6 @@
                 right: 16px;
                 width: 44px;
                 height: 44px;
-            }
-
-            /* Time machine mobile */
-            .time-machine {
-                padding: 60px 5% 40px;
-            }
-
-            .portal-container {
-                width: 150px;
-                height: 150px;
-                margin-bottom: 32px;
-            }
-
-            .tardis-icon {
-                width: 60px;
-                height: 60px;
-            }
-
-            .version-buttons {
-                flex-direction: column;
-                gap: 16px;
-                width: 100%;
-            }
-
-            .version-btn,
-            .version-current {
-                width: 100%;
-                max-width: 280px;
             }
 
             footer {
@@ -1247,33 +1032,6 @@
         </table>
     </div>
 
-    <!-- Time Machine -->
-    <section class="time-machine">
-        <div class="time-machine-content">
-            <p class="time-machine-label">Explore Portfolio Versions</p>
-            <div class="portal-container">
-                <div class="portal-rings">
-                    <div class="portal-ring portal-ring-1"></div>
-                    <div class="portal-ring portal-ring-2"></div>
-                    <div class="portal-ring portal-ring-3"></div>
-                </div>
-                <div class="tardis-icon">
-                    <img src="tardis.png" alt="Time Machine">
-                </div>
-            </div>
-            <div class="version-buttons">
-                <div class="version-current">
-                    <span class="version-number">v1.0</span>
-                    <span class="version-desc">Current</span>
-                </div>
-                <a href="index.html" class="version-btn version-v2">
-                    <span class="version-number">v2.0</span>
-                    <span class="version-desc">Modern Style</span>
-                </a>
-            </div>
-        </div>
-    </section>
-
     <!-- Footer -->
     <footer>
         <p class="footer-text">&copy; 2026 Euan Paulse. Designed with purpose.</p>
@@ -1289,6 +1047,12 @@
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                     <path d="M4 4l11.733 16h4.267l-11.733 -16z"></path>
                     <path d="M4 20l6.768 -6.768m2.46 -2.46l6.772 -6.772"></path>
+                </svg>
+            </a>
+            <a href="mailto:cryptoeuan@gmail.com" aria-label="Email">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
+                    <polyline points="22,6 12,13 2,6"></polyline>
                 </svg>
             </a>
         </div>
