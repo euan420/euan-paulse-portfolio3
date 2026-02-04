@@ -2,58 +2,85 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Archive - Euan Paulse</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
+    <title>Project Archive - Euan Paulse</title>
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://euanport.netlify.app/archive.html">
+    <meta property="og:title" content="Project Archive - Euan Paulse">
+    <meta property="og:image" content="https://euanport.netlify.app/og-image.jpg">
+
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="https://euanport.netlify.app/archive.html">
+    <meta property="twitter:title" content="Project Archive - Euan Paulse">
+    <meta property="twitter:image" content="https://euanport.netlify.app/og-image.jpg">
+
+    <!-- Standard meta -->
+    <meta name="author" content="Euan Paulse">
+    <meta name="description" content="Full archive of projects by Euan Paulse - Community & Marketing Manager">
+
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,400&display=swap" rel="stylesheet">
+
     <style>
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
         }
 
         :root {
-            --navy: #0f172a;
-            --light-navy: #1e293b;
-            --lightest-navy: #334155;
-            --slate: #94a3b8;
-            --light-slate: #cbd5e1;
-            --lightest-slate: #e2e8f0;
-            --white: #f1f5f9;
-            --green: #5eead4;
-            --green-tint: rgba(94, 234, 212, 0.1);
-        }
-
-        /* Light theme variables */
-        body.light-theme {
-            --navy: #f8fafc;
-            --light-navy: #f1f5f9;
-            --lightest-navy: #e2e8f0;
-            --slate: #475569;
-            --light-slate: #334155;
-            --lightest-slate: #1e293b;
-            --white: #0f172a;
-            --green: #0d9488;
-            --green-tint: rgba(13, 148, 136, 0.1);
+            --ink: #0a0f14;
+            --ink-light: #131a22;
+            --ink-lighter: #1c2630;
+            --smoke: #64748b;
+            --smoke-light: #94a3b8;
+            --cream: #e8e4df;
+            --white: #f5f3f0;
+            --mint: #2dd4bf;
+            --mint-dim: rgba(45, 212, 191, 0.15);
+            --mint-glow: rgba(45, 212, 191, 0.4);
+            --gold: #fbbf24;
         }
 
         html {
             scroll-behavior: smooth;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
         }
 
         body {
-            font-family: 'Inter', -apple-system, system-ui, sans-serif;
-            background-color: var(--navy);
-            color: var(--slate);
-            line-height: 1.6;
+            font-family: 'DM Sans', sans-serif;
+            background: var(--ink);
+            color: var(--smoke-light);
+            line-height: 1.7;
             overflow-x: hidden;
-            position: relative;
-            transition: background-color 0.3s ease, color 0.3s ease;
+            font-size: 16px;
         }
 
-        /* Mouse spotlight effect */
+        /* Cursor following light effect */
+        .cursor-light {
+            position: fixed;
+            width: 600px;
+            height: 600px;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(45, 212, 191, 0.15) 0%, transparent 70%);
+            pointer-events: none;
+            z-index: 999;
+            transform: translate(-50%, -50%);
+            transition: opacity 0.3s ease;
+            opacity: 0;
+        }
+
+        .cursor-light.active {
+            opacity: 1;
+        }
+
+        /* Grain overlay */
         body::before {
             content: '';
             position: fixed;
@@ -61,159 +88,210 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: radial-gradient(600px circle at var(--mouse-x, 50%) var(--mouse-y, 50%), rgba(94, 234, 212, 0.15), transparent 80%);
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+            opacity: 0.03;
             pointer-events: none;
-            z-index: 1;
-            transition: opacity 0.3s ease;
+            z-index: 1000;
         }
 
-        /* Adjust spotlight for light theme - same intensity as dark */
-        body.light-theme::before {
-            background: radial-gradient(600px circle at var(--mouse-x, 50%) var(--mouse-y, 50%), rgba(13, 148, 136, 0.15), transparent 80%);
+        /* Selection */
+        ::selection {
+            background: var(--mint);
+            color: var(--ink);
         }
 
+        /* Container */
         .container {
             position: relative;
             z-index: 2;
-            max-width: 1280px;
+            max-width: 1400px;
             margin: 0 auto;
-            padding: 100px 50px;
+            padding: 120px 10% 80px;
+        }
+
+        /* Header */
+        .archive-header {
+            margin-bottom: 60px;
         }
 
         .back-link {
             display: inline-flex;
             align-items: center;
             gap: 8px;
-            color: var(--green);
+            color: var(--mint);
             text-decoration: none;
-            font-weight: 600;
             font-size: 14px;
-            margin-bottom: 40px;
-            transition: all 0.3s ease;
+            font-weight: 600;
+            margin-bottom: 32px;
+            transition: gap 0.3s ease;
         }
 
         .back-link:hover {
             gap: 12px;
         }
 
-        .back-link::before {
-            content: '←';
+        .back-link svg {
+            width: 16px;
+            height: 16px;
         }
 
-        h1 {
-            font-size: 48px;
+        .archive-title {
+            font-family: 'DM Sans', sans-serif;
+            font-size: clamp(48px, 8vw, 72px);
             font-weight: 700;
-            color: var(--lightest-slate);
-            margin-bottom: 60px;
-            letter-spacing: -0.025em;
+            color: var(--white);
+            margin-bottom: 16px;
         }
 
-        /* Table */
+        .archive-subtitle {
+            font-size: 18px;
+            color: var(--smoke-light);
+            max-width: 700px;
+        }
+
+        /* Projects Table */
         .projects-table {
             width: 100%;
-            border-collapse: collapse;
+            border-collapse: separate;
+            border-spacing: 0 16px;
         }
 
         .projects-table thead {
-            border-bottom: 1px solid rgba(148, 163, 184, 0.2);
+            position: sticky;
+            top: 0;
+            z-index: 10;
         }
 
         .projects-table th {
             text-align: left;
-            padding: 12px 16px;
+            padding: 16px;
             font-size: 13px;
-            font-weight: 700;
+            font-weight: 600;
+            color: var(--mint);
             text-transform: uppercase;
             letter-spacing: 0.05em;
-            color: var(--lightest-slate);
+            background: var(--ink);
+            border-bottom: 1px solid var(--ink-lighter);
         }
 
         .projects-table tbody tr {
-            border-bottom: 1px solid rgba(148, 163, 184, 0.1);
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            background: var(--ink-light);
+            border: 1px solid rgba(255,255,255,0.05);
+            transition: all 0.3s ease;
             cursor: pointer;
         }
 
         .projects-table tbody tr:hover {
-            background-color: rgba(148, 163, 184, 0.05);
+            background: var(--ink-lighter);
+            border-color: var(--mint);
+            transform: translateX(4px);
         }
 
         .projects-table td {
             padding: 24px 16px;
-            vertical-align: middle;
+            vertical-align: top;
+            border-top: 1px solid rgba(255,255,255,0.05);
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+        }
+
+        .projects-table td:first-child {
+            border-left: 1px solid rgba(255,255,255,0.05);
+            border-top-left-radius: 12px;
+            border-bottom-left-radius: 12px;
+        }
+
+        .projects-table td:last-child {
+            border-right: 1px solid rgba(255,255,255,0.05);
+            border-top-right-radius: 12px;
+            border-bottom-right-radius: 12px;
         }
 
         .year-cell {
             font-size: 14px;
-            color: var(--green);
-            font-weight: 500;
-            width: 100px;
+            color: var(--smoke);
+            white-space: nowrap;
+            width: 120px;
         }
 
         .project-cell {
+            min-width: 200px;
+        }
+
+        .project-name {
+            font-family: 'DM Sans', sans-serif;
             font-size: 18px;
-            font-weight: 600;
-            color: var(--lightest-slate);
-            width: 20%;
+            font-weight: 700;
+            color: var(--white);
+            margin-bottom: 4px;
         }
 
         .project-subtitle {
             font-size: 13px;
-            font-weight: 400;
-            color: var(--slate);
-            margin-top: 4px;
-        }
-
-        .projects-table tbody tr:hover .project-cell {
-            color: var(--green);
+            color: var(--mint);
+            font-weight: 500;
         }
 
         .description-cell {
-            font-size: 14px;
-            color: var(--slate);
-            line-height: 1.6;
-            width: 35%;
-        }
-
-        .description-cell a {
-            color: var(--green);
-            text-decoration: none;
-            transition: color 0.3s ease;
-        }
-
-        .description-cell a:hover {
-            text-decoration: underline;
+            font-size: 15px;
+            color: var(--smoke-light);
+            line-height: 1.7;
+            max-width: 500px;
         }
 
         .links-cell {
-            width: 80px;
+            width: 60px;
             text-align: center;
         }
 
-        .media-cell {
-            width: 200px;
-            position: relative;
+        .project-link {
+            color: var(--smoke-light);
+            text-decoration: none;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 36px;
+            height: 36px;
+            border-radius: 8px;
+            background: rgba(255,255,255,0.03);
         }
 
+        .project-link:hover {
+            color: var(--mint);
+            background: var(--mint-dim);
+            transform: translateY(-2px);
+        }
+
+        .project-link svg {
+            width: 18px;
+            height: 18px;
+        }
+
+        .media-cell {
+            width: 240px;
+            padding: 12px;
+        }
+
+        /* Media Slider */
         .media-slider {
             position: relative;
-            width: 180px;
-            height: 100px;
-            border-radius: 4px;
+            width: 100%;
+            height: 140px;
             overflow: hidden;
-            background-color: rgba(148, 163, 184, 0.05);
+            border-radius: 8px;
+            background: var(--ink);
         }
 
         .media-slider-track {
             display: flex;
-            transition: transform 0.3s ease;
             height: 100%;
+            transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
         .media-item {
-            flex: 0 0 100%;
-            width: 100%;
+            min-width: 100%;
             height: 100%;
+            position: relative;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -224,50 +302,58 @@
             width: 100%;
             height: 100%;
             object-fit: cover;
+            cursor: pointer;
         }
 
         .media-nav {
             position: absolute;
             top: 50%;
             transform: translateY(-50%);
-            background-color: rgba(0, 0, 0, 0.5);
-            color: white;
+            width: 28px;
+            height: 28px;
+            background: rgba(0,0,0,0.6);
+            backdrop-filter: blur(4px);
             border: none;
-            width: 24px;
-            height: 24px;
             border-radius: 50%;
+            color: white;
             cursor: pointer;
             display: flex;
             align-items: center;
             justify-content: center;
-            transition: background-color 0.3s ease;
-            z-index: 2;
+            transition: all 0.3s ease;
+            z-index: 10;
+            opacity: 0;
+        }
+
+        .media-slider:hover .media-nav {
+            opacity: 1;
         }
 
         .media-nav:hover {
-            background-color: rgba(0, 0, 0, 0.7);
+            background: rgba(0,0,0,0.8);
+            transform: translateY(-50%) scale(1.1);
         }
 
         .media-nav.prev {
-            left: 4px;
+            left: 8px;
         }
 
         .media-nav.next {
-            right: 4px;
+            right: 8px;
         }
 
         .media-nav svg {
-            width: 12px;
-            height: 12px;
+            width: 14px;
+            height: 14px;
         }
 
         .media-dots {
             position: absolute;
-            bottom: 4px;
+            bottom: 8px;
             left: 50%;
             transform: translateX(-50%);
             display: flex;
-            gap: 4px;
+            gap: 6px;
             z-index: 2;
         }
 
@@ -275,12 +361,15 @@
             width: 6px;
             height: 6px;
             border-radius: 50%;
-            background-color: rgba(255, 255, 255, 0.5);
-            transition: background-color 0.3s ease;
+            background: rgba(255,255,255,0.4);
+            cursor: pointer;
+            transition: all 0.3s ease;
         }
 
         .media-dot.active {
-            background-color: var(--green);
+            background: var(--mint);
+            width: 20px;
+            border-radius: 3px;
         }
 
         .play-button {
@@ -288,37 +377,40 @@
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
-            width: 32px;
-            height: 32px;
-            background-color: rgba(0, 0, 0, 0.6);
+            width: 40px;
+            height: 40px;
+            background: rgba(0,0,0,0.7);
+            backdrop-filter: blur(4px);
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
             cursor: pointer;
-            z-index: 3;
-            transition: background-color 0.3s ease;
+            z-index: 5;
+            transition: all 0.3s ease;
         }
 
         .play-button:hover {
-            background-color: rgba(0, 0, 0, 0.8);
+            background: rgba(0,0,0,0.9);
+            transform: translate(-50%, -50%) scale(1.1);
         }
 
         .play-button svg {
-            width: 14px;
-            height: 14px;
+            width: 16px;
+            height: 16px;
             fill: white;
             margin-left: 2px;
         }
 
-        /* Media Modal/Lightbox */
+        /* Media Modal */
         .media-modal {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background-color: rgba(0, 0, 0, 0.95);
+            background: rgba(10, 15, 20, 0.98);
+            backdrop-filter: blur(10px);
             z-index: 9999;
             display: none;
             align-items: center;
@@ -358,16 +450,16 @@
             max-width: 100%;
             max-height: 90vh;
             object-fit: contain;
-            border-radius: 4px;
+            border-radius: 12px;
         }
 
         .modal-close {
             position: absolute;
             top: 20px;
             right: 20px;
-            width: 40px;
-            height: 40px;
-            background-color: rgba(255, 255, 255, 0.1);
+            width: 48px;
+            height: 48px;
+            background: rgba(255,255,255,0.1);
             border: none;
             border-radius: 50%;
             color: white;
@@ -375,12 +467,13 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            transition: background-color 0.3s ease;
-            z-index: 10000;
+            transition: all 0.3s ease;
+            z-index: 10001;
         }
 
         .modal-close:hover {
-            background-color: rgba(255, 255, 255, 0.2);
+            background: rgba(255,255,255,0.2);
+            transform: rotate(90deg);
         }
 
         .modal-close svg {
@@ -392,9 +485,9 @@
             position: absolute;
             top: 50%;
             transform: translateY(-50%);
-            width: 50px;
-            height: 50px;
-            background-color: rgba(255, 255, 255, 0.1);
+            width: 56px;
+            height: 56px;
+            background: rgba(255,255,255,0.1);
             border: none;
             border-radius: 50%;
             color: white;
@@ -407,16 +500,16 @@
         }
 
         .modal-nav:hover {
-            background-color: rgba(255, 255, 255, 0.2);
+            background: rgba(255,255,255,0.2);
             transform: translateY(-50%) scale(1.1);
         }
 
         .modal-nav.prev {
-            left: 30px;
+            left: 40px;
         }
 
         .modal-nav.next {
-            right: 30px;
+            right: 40px;
         }
 
         .modal-nav svg {
@@ -429,364 +522,469 @@
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
-            width: 64px;
-            height: 64px;
-            background-color: rgba(255, 255, 255, 0.2);
+            width: 80px;
+            height: 80px;
+            background: rgba(45, 212, 191, 0.3);
+            backdrop-filter: blur(4px);
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
             cursor: pointer;
             z-index: 10001;
-            transition: background-color 0.3s ease;
+            transition: all 0.3s ease;
         }
 
         .modal-play-button:hover {
-            background-color: rgba(255, 255, 255, 0.3);
+            background: rgba(45, 212, 191, 0.4);
+            transform: translate(-50%, -50%) scale(1.1);
         }
 
         .modal-play-button svg {
-            width: 28px;
-            height: 28px;
+            width: 32px;
+            height: 32px;
             fill: white;
             margin-left: 4px;
         }
 
         .modal-counter {
             position: absolute;
-            bottom: 20px;
+            bottom: 30px;
             left: 50%;
             transform: translateX(-50%);
             color: white;
             font-size: 14px;
-            font-weight: 500;
-            background-color: rgba(0, 0, 0, 0.5);
-            padding: 8px 16px;
+            font-weight: 600;
+            background: rgba(0,0,0,0.6);
+            backdrop-filter: blur(8px);
+            padding: 10px 20px;
             border-radius: 20px;
         }
 
-        @media (max-width: 768px) {
-            .modal-nav {
-                width: 40px;
-                height: 40px;
-            }
+        /* Static Media */
+        .static-media {
+            width: 100%;
+            height: 140px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(148, 163, 184, 0.05);
+            border-radius: 8px;
+        }
 
-            .modal-nav.prev {
-                left: 10px;
-            }
+        .static-media img {
+            max-width: 90%;
+            max-height: 90%;
+            object-fit: contain;
+        }
 
-            .modal-nav.next {
-                right: 10px;
-            }
+        /* Time Machine */
+        .time-machine {
+            padding: 80px 10% 60px;
+            background: var(--ink);
+            position: relative;
+            overflow: hidden;
+        }
 
-            .modal-close {
-                top: 10px;
-                right: 10px;
+        .time-machine::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 600px;
+            height: 600px;
+            background: radial-gradient(circle, var(--mint-dim) 0%, transparent 70%);
+            pointer-events: none;
+            animation: pulse 4s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 0.5; transform: translate(-50%, -50%) scale(1); }
+            50% { opacity: 0.8; transform: translate(-50%, -50%) scale(1.1); }
+        }
+
+        .time-machine-content {
+            max-width: 800px;
+            margin: 0 auto;
+            text-align: center;
+            position: relative;
+            z-index: 1;
+        }
+
+        .time-machine-label {
+            font-size: 12px;
+            font-weight: 600;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            color: var(--mint);
+            margin-bottom: 40px;
+        }
+
+        .portal-container {
+            position: relative;
+            width: 200px;
+            height: 200px;
+            margin: 0 auto 48px;
+        }
+
+        .portal-rings {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 100%;
+            height: 100%;
+        }
+
+        .portal-ring {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            border: 2px solid var(--mint);
+            border-radius: 50%;
+            opacity: 0.3;
+            animation: portalPulse 3s ease-in-out infinite;
+        }
+
+        .portal-ring-1 {
+            width: 100%;
+            height: 100%;
+            animation-delay: 0s;
+        }
+
+        .portal-ring-2 {
+            width: 75%;
+            height: 75%;
+            animation-delay: 0.5s;
+        }
+
+        .portal-ring-3 {
+            width: 50%;
+            height: 50%;
+            animation-delay: 1s;
+        }
+
+        @keyframes portalPulse {
+            0%, 100% {
+                transform: translate(-50%, -50%) scale(1);
+                opacity: 0.3;
+            }
+            50% {
+                transform: translate(-50%, -50%) scale(1.1);
+                opacity: 0.6;
             }
         }
 
-        .project-link {
-            color: var(--slate);
+        .tardis-icon {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 80px;
+            height: 80px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            animation: float 3s ease-in-out infinite;
+            filter: drop-shadow(0 0 20px var(--mint-glow));
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translate(-50%, -50%) translateY(0); }
+            50% { transform: translate(-50%, -50%) translateY(-10px); }
+        }
+
+        .tardis-icon img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+        }
+
+        .version-buttons {
+            display: flex;
+            gap: 24px;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .version-btn,
+        .version-current {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px 32px;
+            border-radius: 16px;
+            border: 1px solid rgba(255,255,255,0.1);
+            background: var(--ink-lighter);
+            min-width: 140px;
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .version-btn {
             text-decoration: none;
+            cursor: pointer;
+        }
+
+        .version-btn:hover {
+            border-color: var(--mint);
+            background: var(--ink-light);
+            transform: translateY(-4px);
+            box-shadow: 0 12px 32px rgba(45, 212, 191, 0.2);
+        }
+
+        .version-current {
+            background: linear-gradient(135deg, var(--mint) 0%, var(--mint-glow) 100%);
+            border-color: var(--mint);
+            box-shadow: 0 8px 24px rgba(45, 212, 191, 0.3);
+        }
+
+        .version-number {
+            font-family: 'DM Sans', sans-serif;
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--white);
+            margin-bottom: 4px;
+        }
+
+        .version-current .version-number {
+            color: var(--ink);
+        }
+
+        .version-desc {
+            font-size: 12px;
+            font-weight: 500;
+            color: var(--smoke);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .version-current .version-desc {
+            color: var(--ink);
+            opacity: 0.8;
+        }
+
+        /* Footer */
+        footer {
+            padding: 48px 10%;
+            border-top: 1px solid var(--ink-lighter);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .footer-text {
+            font-size: 14px;
+            color: var(--smoke);
+        }
+
+        .footer-links {
+            display: flex;
+            gap: 24px;
+        }
+
+        .footer-links a {
+            color: var(--smoke);
             transition: color 0.3s ease;
-            display: inline-block;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 44px;
+            height: 44px;
         }
 
-        .project-link:hover {
-            color: var(--green);
+        .footer-links a:hover {
+            color: var(--mint);
         }
 
-        .project-link svg {
-            width: 20px;
-            height: 20px;
-        }
-
-        /* Light theme table adjustments */
-        body.light-theme .projects-table tbody tr:hover {
-            background-color: rgba(148, 163, 184, 0.08);
+        .footer-links svg {
+            width: 22px;
+            height: 22px;
         }
 
         /* Responsive */
-        @media (max-width: 768px) {
+        @media (max-width: 1200px) {
+            .projects-table {
+                font-size: 14px;
+            }
+
+            .media-cell {
+                width: 200px;
+            }
+
+            .media-slider {
+                height: 120px;
+            }
+        }
+
+        @media (max-width: 968px) {
             .container {
-                padding: 60px 25px;
+                padding: 100px 5% 60px;
             }
 
-            h1 {
-                font-size: 40px;
-            }
-
-            .projects-table,
-            .projects-table thead,
-            .projects-table tbody,
-            .projects-table tr,
-            .projects-table td,
-            .projects-table th {
+            .projects-table {
                 display: block;
+                overflow-x: auto;
+                white-space: nowrap;
             }
 
             .projects-table thead {
                 display: none;
             }
 
-            .projects-table tr {
-                margin-bottom: 30px;
+            .projects-table tbody,
+            .projects-table tr,
+            .projects-table td {
+                display: block;
+                width: 100%;
+            }
+
+            .projects-table tbody tr {
+                margin-bottom: 24px;
+                border-radius: 12px;
                 padding: 20px;
-                border: 1px solid rgba(148, 163, 184, 0.2);
-                border-radius: 8px;
             }
 
             .projects-table td {
-                padding: 8px 0;
-                text-align: left !important;
-                width: 100% !important;
+                padding: 12px 0;
+                border: none !important;
+            }
+
+            .projects-table td:first-child,
+            .projects-table td:last-child {
+                border-radius: 0;
             }
 
             .year-cell {
-                font-size: 13px;
+                font-size: 12px;
                 margin-bottom: 8px;
             }
 
             .project-cell {
-                font-size: 16px;
                 margin-bottom: 12px;
             }
 
             .description-cell {
-                margin-bottom: 12px;
-                font-size: 13px;
+                max-width: 100%;
+                margin-bottom: 16px;
             }
 
             .links-cell {
-                width: 100%;
+                width: auto;
                 text-align: left;
-                margin: 12px 0;
+                margin-bottom: 16px;
             }
 
             .media-cell {
                 width: 100%;
-                margin-top: 12px;
+                padding: 0;
             }
 
-            .media-slider {
-                width: 100%;
+            .media-slider,
+            .static-media {
                 height: 200px;
             }
+
+            .archive-title {
+                font-size: clamp(36px, 10vw, 56px);
+            }
+
+            .archive-subtitle {
+                font-size: 16px;
+            }
+
+            .modal-nav {
+                width: 44px;
+                height: 44px;
+            }
+
+            .modal-nav.prev {
+                left: 16px;
+            }
+
+            .modal-nav.next {
+                right: 16px;
+            }
+
+            .modal-close {
+                top: 16px;
+                right: 16px;
+                width: 44px;
+                height: 44px;
+            }
+
+            /* Time machine mobile */
+            .time-machine {
+                padding: 60px 5% 40px;
+            }
+
+            .portal-container {
+                width: 150px;
+                height: 150px;
+                margin-bottom: 32px;
+            }
+
+            .tardis-icon {
+                width: 60px;
+                height: 60px;
+            }
+
+            .version-buttons {
+                flex-direction: column;
+                gap: 16px;
+                width: 100%;
+            }
+
+            .version-btn,
+            .version-current {
+                width: 100%;
+                max-width: 280px;
+            }
+
+            footer {
+                flex-direction: column;
+                gap: 28px;
+                text-align: center;
+                padding: 40px 5%;
+            }
         }
 
-        /* Archive Footer */
-        .archive-footer {
-            padding: 48px 0 40px;
-            margin-top: 60px;
+        @media (max-width: 480px) {
+            .container {
+                padding: 90px 5% 50px;
+            }
+
+            .media-slider,
+            .static-media {
+                height: 180px;
+            }
         }
 
-        .archive-footer-inner {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 28px;
-        }
-
-        .archive-footer-copy {
-            text-align: center;
-            color: var(--slate);
-            font-size: 14px;
-            margin-top: 20px;
-        }
-
-        .archive-social-link {
-            color: var(--slate);
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            display: flex;
-            align-items: center;
-        }
-
-        .archive-social-link:hover {
-            color: var(--lightest-slate);
-            transform: translateY(-2px);
-        }
-
-        .archive-social-link svg {
-            width: 22px;
-            height: 22px;
-        }
-
-        /* Theme Switch */
-        .theme-switch {
-            --toggle-size: 6px;
-            --container-width: 5.625em;
-            --container-height: 2.5em;
-            --container-radius: 6.25em;
-            --container-light-bg: #3D7EAE;
-            --container-night-bg: #1D1F2C;
-            --circle-container-diameter: 3.375em;
-            --sun-moon-diameter: 2.125em;
-            --sun-bg: #ECCA2F;
-            --moon-bg: #C4C9D1;
-            --spot-color: #959DB1;
-            --circle-container-offset: calc((var(--circle-container-diameter) - var(--container-height)) / 2 * -1);
-            --stars-color: #fff;
-            --clouds-color: #F3FDFF;
-            --back-clouds-color: #AACADF;
-            --transition: .5s cubic-bezier(0, -0.02, 0.4, 1.25);
-            --circle-transition: .3s cubic-bezier(0, -0.02, 0.35, 1.17);
-        }
-
-        .theme-switch, .theme-switch *, .theme-switch *::before, .theme-switch *::after {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-            font-size: var(--toggle-size);
-        }
-
-        .theme-switch__container {
-            width: var(--container-width);
-            height: var(--container-height);
-            background-color: var(--container-light-bg);
-            border-radius: var(--container-radius);
-            overflow: hidden;
-            cursor: pointer;
-            box-shadow: 0em -0.062em 0.062em rgba(0, 0, 0, 0.25), 0em 0.062em 0.125em rgba(255, 255, 255, 0.94);
-            transition: var(--transition);
-            position: relative;
-        }
-
-        .theme-switch__container::before {
-            content: "";
-            position: absolute;
-            z-index: 1;
-            inset: 0;
-            box-shadow: 0em 0.05em 0.187em rgba(0, 0, 0, 0.25) inset, 0em 0.05em 0.187em rgba(0, 0, 0, 0.25) inset;
-            border-radius: var(--container-radius);
-        }
-
-        .theme-switch__checkbox {
-            display: none;
-        }
-
-        .theme-switch__circle-container {
-            width: var(--circle-container-diameter);
-            height: var(--circle-container-diameter);
-            background-color: rgba(255, 255, 255, 0.1);
-            position: absolute;
-            left: var(--circle-container-offset);
-            top: var(--circle-container-offset);
-            border-radius: var(--container-radius);
-            box-shadow: inset 0 0 0 3.375em rgba(255, 255, 255, 0.1), inset 0 0 0 3.375em rgba(255, 255, 255, 0.1), 0 0 0 0.625em rgba(255, 255, 255, 0.1), 0 0 0 1.25em rgba(255, 255, 255, 0.1);
-            display: flex;
-            transition: var(--circle-transition);
-            pointer-events: none;
-        }
-
-        .theme-switch__sun-moon-container {
-            pointer-events: auto;
-            position: relative;
-            z-index: 2;
-            width: var(--sun-moon-diameter);
-            height: var(--sun-moon-diameter);
-            margin: auto;
-            border-radius: var(--container-radius);
-            background-color: var(--sun-bg);
-            box-shadow: 0.062em 0.062em 0.062em 0em rgba(254, 255, 239, 0.61) inset, 0em -0.062em 0.062em 0em #a1872a inset;
-            filter: drop-shadow(0.062em 0.125em 0.125em rgba(0, 0, 0, 0.25)) drop-shadow(0em 0.062em 0.125em rgba(0, 0, 0, 0.25));
-            overflow: hidden;
-            transition: var(--transition);
-        }
-
-        .theme-switch__moon {
-            transform: translateX(100%);
-            width: 100%;
-            height: 100%;
-            background-color: var(--moon-bg);
-            border-radius: inherit;
-            box-shadow: 0.062em 0.062em 0.062em 0em rgba(254, 255, 239, 0.61) inset, 0em -0.062em 0.062em 0em #969696 inset;
-            transition: var(--transition);
-            position: relative;
-        }
-
-        .theme-switch__spot {
-            position: absolute;
-            top: 0.75em;
-            left: 0.312em;
-            width: 0.75em;
-            height: 0.75em;
-            border-radius: var(--container-radius);
-            background-color: var(--spot-color);
-            box-shadow: 0em 0.0312em 0.062em rgba(0, 0, 0, 0.25) inset;
-        }
-
-        .theme-switch__spot:nth-of-type(2) {
-            width: 0.375em;
-            height: 0.375em;
-            top: 0.937em;
-            left: 1.375em;
-        }
-
-        .theme-switch__spot:nth-last-of-type(3) {
-            width: 0.25em;
-            height: 0.25em;
-            top: 0.312em;
-            left: 0.812em;
-        }
-
-        .theme-switch__clouds {
-            width: 1.25em;
-            height: 1.25em;
-            background-color: var(--clouds-color);
-            border-radius: var(--container-radius);
-            position: absolute;
-            bottom: -0.625em;
-            left: 0.312em;
-            box-shadow: 0.937em 0.312em var(--clouds-color), -0.312em -0.312em var(--back-clouds-color), 1.437em 0.375em var(--clouds-color), 0.5em -0.125em var(--back-clouds-color), 2.187em 0 var(--clouds-color), 1.25em -0.062em var(--back-clouds-color), 2.937em 0.312em var(--clouds-color), 2em -0.312em var(--back-clouds-color), 3.625em -0.062em var(--clouds-color), 2.625em 0em var(--back-clouds-color), 4.5em -0.312em var(--clouds-color), 3.375em -0.437em var(--back-clouds-color), 4.625em -1.75em 0 0.437em var(--clouds-color), 4em -0.625em var(--back-clouds-color), 4.125em -2.125em 0 0.437em var(--back-clouds-color);
-            transition: 0.5s cubic-bezier(0, -0.02, 0.4, 1.25);
-        }
-
-        .theme-switch__stars-container {
-            position: absolute;
-            color: var(--stars-color);
-            top: -100%;
-            left: 0.312em;
-            width: 2.75em;
-            height: auto;
-            transform: translateY(0);
-            transition: var(--transition);
-        }
-
-        .theme-switch__checkbox:checked + .theme-switch__container {
-            background-color: var(--container-night-bg);
-        }
-
-        .theme-switch__checkbox:checked + .theme-switch__container .theme-switch__circle-container {
-            left: calc(100% - var(--circle-container-offset) - var(--circle-container-diameter));
-        }
-
-        .theme-switch__circle-container:hover {
-            left: calc(var(--circle-container-offset) + 0.187em);
-        }
-
-        .theme-switch__checkbox:checked + .theme-switch__container .theme-switch__circle-container:hover {
-            left: calc(100% - var(--circle-container-offset) - var(--circle-container-diameter) - 0.187em);
-        }
-
-        .theme-switch__checkbox:checked + .theme-switch__container .theme-switch__moon {
-            transform: translateX(0);
-        }
-
-        .theme-switch__checkbox:checked + .theme-switch__container .theme-switch__clouds {
-            bottom: -4.062em;
-        }
-
-        .theme-switch__checkbox:checked + .theme-switch__container .theme-switch__stars-container {
-            top: 50%;
-            transform: translateY(-50%);
+        /* Touch device optimizations */
+        @media (hover: none) and (pointer: coarse) {
+            .media-nav {
+                opacity: 1;
+            }
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <a href="index.html" class="back-link">Home</a>
+    <!-- Cursor following light -->
+    <div class="cursor-light" id="cursor-light"></div>
 
-        <h1>Featured Projects</h1>
+    <!-- Container -->
+    <div class="container">
+        <div class="archive-header">
+            <a href="index.html" class="back-link">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <polyline points="15 18 9 12 15 6"></polyline>
+                </svg>
+                Back to Main
+            </a>
+            <h1 class="archive-title">Project Archive</h1>
+            <p class="archive-subtitle">A comprehensive collection of my work across community management and digital marketing—from high-end NFT launches to global gaming platforms and marketing/management agencies.</p>
+        </div>
 
         <table class="projects-table">
             <thead>
@@ -799,15 +997,16 @@
                 </tr>
             </thead>
             <tbody>
+                <!-- Project 1: RatioWeb3 -->
                 <tr>
                     <td class="year-cell">2025</td>
                     <td class="project-cell">
-                        RatioWeb3
+                        <div class="project-name">Ratio</div>
                         <div class="project-subtitle">Community Manager</div>
                     </td>
                     <td class="description-cell">Digital marketing agency focused on performance marketing, viral community building, and growth strategies for digital startups.</td>
                     <td class="links-cell">
-                        <a href="https://www.ratioweb3.com/#home" class="project-link" target="_blank" title="View project" aria-label="View project">
+                        <a href="https://www.ratioweb3.com/#home" class="project-link" target="_blank" title="View project" aria-label="View project" onclick="event.stopPropagation()">
                             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                                 <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
                                 <polyline points="15 3 21 3 21 9"></polyline>
@@ -823,15 +1022,16 @@
                     </td>
                 </tr>
 
+                <!-- Project 2: Reign of Titans -->
                 <tr>
                     <td class="year-cell">2024 — 2026</td>
                     <td class="project-cell">
-                        Reign of Titans
+                        <div class="project-name">Reign of Titans</div>
                         <div class="project-subtitle">Lead Moderator</div>
                     </td>
                     <td class="description-cell">Enter the world of Ereo through RoT, a multiplayer PVP strategic card game. Available on PC, Google Play and the App Store.</td>
                     <td class="links-cell">
-                        <a href="https://reignoftitans.gg/" class="project-link" target="_blank" title="Try Game" aria-label="Try Game">
+                        <a href="https://reignoftitans.gg/" class="project-link" target="_blank" title="Try Game" aria-label="Try Game" onclick="event.stopPropagation()">
                             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                                 <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
                                 <polyline points="15 3 21 3 21 9"></polyline>
@@ -857,15 +1057,16 @@
                     </td>
                 </tr>
 
+                <!-- Project 3: Astra Anima -->
                 <tr>
                     <td class="year-cell">2024</td>
                     <td class="project-cell">
-                        Astra Anima (Sol Survivor)
+                        <div class="project-name">Astra Anima (Sol Survivor)</div>
                         <div class="project-subtitle">Community Manager</div>
                     </td>
                     <td class="description-cell">Astra Anima was the official project behind Sol Survivor, a quick-roguelike/adventure game. Players could play the game as any avatar based on prominent Solana figures.</td>
                     <td class="links-cell">
-                        <a href="https://arcjamie.itch.io/sol-legends" class="project-link" target="_blank" title="Try Game" aria-label="Try Game">
+                        <a href="https://arcjamie.itch.io/sol-legends" class="project-link" target="_blank" title="Try Game" aria-label="Try Game" onclick="event.stopPropagation()">
                             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                                 <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
                                 <polyline points="15 3 21 3 21 9"></polyline>
@@ -891,15 +1092,16 @@
                     </td>
                 </tr>
 
+                <!-- Project 4: SILICONS -->
                 <tr>
                     <td class="year-cell">2023 — 2025</td>
                     <td class="project-cell">
-                        SILICONS
+                        <div class="project-name">SILICONS</div>
                         <div class="project-subtitle">Community Manager / Social Media Manager</div>
                     </td>
                     <td class="description-cell">SILICONS is a high-end 3D fashion collectible, designed around the ABSTRCT clothing brand. ABSTRCT was a clothing brand designed by the CAW Studio team. The launch rolled out their SS24' Capsule Collection line.</td>
                     <td class="links-cell">
-                        <a href="https://x.com/SILICONS_CAW" class="project-link" target="_blank" title="View project" aria-label="View project">
+                        <a href="https://x.com/SILICONS_CAW" class="project-link" target="_blank" title="View project" aria-label="View project" onclick="event.stopPropagation()">
                             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                                 <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
                                 <polyline points="15 3 21 3 21 9"></polyline>
@@ -925,15 +1127,16 @@
                     </td>
                 </tr>
 
+                <!-- Project 5: Excellerate -->
                 <tr>
                     <td class="year-cell">2022 — 2023</td>
                     <td class="project-cell">
-                        Excellerate
+                        <div class="project-name">Excellerate</div>
                         <div class="project-subtitle">Community Manager / Head of Outreach</div>
                     </td>
                     <td class="description-cell">Excellerate is a community management and operations services company that provides outsourced community, social media, and support teams to businesses across Web3 and digital industries.</td>
                     <td class="links-cell">
-                        <a href="https://www.linkedin.com/company/excellerateweb3/" class="project-link" target="_blank" title="View project" aria-label="View project">
+                        <a href="https://www.linkedin.com/company/excellerateweb3/" class="project-link" target="_blank" title="View project" aria-label="View project" onclick="event.stopPropagation()">
                             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                                 <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
                                 <polyline points="15 3 21 3 21 9"></polyline>
@@ -942,16 +1145,17 @@
                         </a>
                     </td>
                     <td class="media-cell">
-                        <div style="width: 180px; height: 100px; display: flex; align-items: center; justify-content: center; background-color: rgba(148, 163, 184, 0.05); border-radius: 4px;">
-                            <img src="excellerate-logo.jpg" alt="Excellerate logo" style="max-width: 140px; max-height: 80px; object-fit: contain;">
+                        <div class="static-media">
+                            <img src="excellerate-logo.jpg" alt="Excellerate logo">
                         </div>
                     </td>
                 </tr>
 
+                <!-- Project 6: RebelPoker -->
                 <tr>
                     <td class="year-cell">2022</td>
                     <td class="project-cell">
-                        RebelPoker
+                        <div class="project-name">RebelPoker</div>
                         <div class="project-subtitle">Partnership Manager</div>
                     </td>
                     <td class="description-cell">RebelPoker is a fully developed poker platform offering dozens of different ring games (Texas Hold'em, Omaha, etc.), tournament variations and speed play.</td>
@@ -976,10 +1180,11 @@
                     </td>
                 </tr>
 
+                <!-- Project 7: Unchained: Kingmaker -->
                 <tr>
                     <td class="year-cell">2022</td>
                     <td class="project-cell">
-                        Unchained: Kingmaker
+                        <div class="project-name">Unchained: Kingmaker</div>
                         <div class="project-subtitle">Moderator</div>
                     </td>
                     <td class="description-cell">Unchained is the first cross-chain gaming project, #ETHUnchained vs #SOLUnchained</td>
@@ -1004,15 +1209,16 @@
                     </td>
                 </tr>
 
+                <!-- Project 8: Sovana -->
                 <tr>
                     <td class="year-cell">2022</td>
                     <td class="project-cell">
-                        Sovana
+                        <div class="project-name">Sovana</div>
                         <div class="project-subtitle">Moderator</div>
                     </td>
-                    <td class="description-cell">Sovana is an interoperable metaverse platform built to visualise the Solana NFT space, and arguably Solana's solution to the metaverse. Sovana aims to bring back the popularity of web-based MMORPGs, such as Club Penguin & Runescape with Web3.0 elements. Users are able to enter Sovana as their NFT avatar, providing an identity that users can resonate with.</td>
+                    <td class="description-cell">Sovana is an interoperable metaverse platform built to visualise the Solana NFT space, and arguably Solana's solution to the metaverse. Sovana aims to bring back the popularity of web-based MMORPGs, such as Club Penguin & Runescape with Web3.0 elements.</td>
                     <td class="links-cell">
-                        <a href="https://ryfo.medium.com/solanas-answer-to-the-metaverse-sovanadao-355244848383" class="project-link" target="_blank" title="View project" aria-label="View project">
+                        <a href="https://ryfo.medium.com/solanas-answer-to-the-metaverse-sovanadao-355244848383" class="project-link" target="_blank" title="View project" aria-label="View project" onclick="event.stopPropagation()">
                             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                                 <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
                                 <polyline points="15 3 21 3 21 9"></polyline>
@@ -1037,49 +1243,55 @@
                         </div>
                     </td>
                 </tr>
-
-                <!-- Add more project rows as needed -->
             </tbody>
         </table>
     </div>
 
-    <!-- Archive Footer -->
-    <footer class="archive-footer">
-        <div class="archive-footer-inner">
-            <a href="https://www.linkedin.com/in/euan-paulse-585b6b237" target="_blank" class="archive-social-link" title="LinkedIn" aria-label="LinkedIn">
+    <!-- Time Machine -->
+    <section class="time-machine">
+        <div class="time-machine-content">
+            <p class="time-machine-label">Explore Portfolio Versions</p>
+            <div class="portal-container">
+                <div class="portal-rings">
+                    <div class="portal-ring portal-ring-1"></div>
+                    <div class="portal-ring portal-ring-2"></div>
+                    <div class="portal-ring portal-ring-3"></div>
+                </div>
+                <div class="tardis-icon">
+                    <img src="tardis.png" alt="Time Machine">
+                </div>
+            </div>
+            <div class="version-buttons">
+                <div class="version-current">
+                    <span class="version-number">v1.0</span>
+                    <span class="version-desc">Current</span>
+                </div>
+                <a href="index.html" class="version-btn version-v2">
+                    <span class="version-number">v2.0</span>
+                    <span class="version-desc">Modern Style</span>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <p class="footer-text">&copy; 2026 Euan Paulse. Designed with purpose.</p>
+        <div class="footer-links">
+            <a href="https://www.linkedin.com/in/euan-paulse-585b6b237" target="_blank" aria-label="LinkedIn">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                     <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path>
                     <rect x="2" y="9" width="4" height="12"></rect>
                     <circle cx="4" cy="4" r="2"></circle>
                 </svg>
             </a>
-            <a href="https://x.com/3uan__" target="_blank" class="archive-social-link" title="X (Twitter)" aria-label="X (Twitter)">
-                <svg viewBox="0 0 24 24" fill="currentColor">
-                    <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
+            <a href="https://x.com/euan_paulse" target="_blank" aria-label="Twitter/X">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M4 4l11.733 16h4.267l-11.733 -16z"></path>
+                    <path d="M4 20l6.768 -6.768m2.46 -2.46l6.772 -6.772"></path>
                 </svg>
             </a>
-            <label class="theme-switch" title="Toggle theme" aria-label="Toggle theme">
-                <input type="checkbox" class="theme-switch__checkbox" id="theme-toggle">
-                <div class="theme-switch__container">
-                    <div class="theme-switch__clouds"></div>
-                    <div class="theme-switch__stars-container">
-                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 144 55" fill="none">
-                            <path fill-rule="evenodd" clip-rule="evenodd" d="M135.831 3.00688C135.055 3.85027 134.111 4.29946 133 4.35447C134.111 4.40947 135.055 4.85867 135.831 5.71123C136.607 6.55462 136.996 7.56303 136.996 8.72727C136.996 7.95722 137.172 7.25134 137.525 6.59129C137.886 5.93124 138.372 5.39954 138.98 5.00535C139.598 4.60199 140.268 4.39114 141 4.35447C139.88 4.2903 138.936 3.85027 138.16 3.00688C137.384 2.16348 136.996 1.16425 136.996 0C136.996 1.16425 136.607 2.16348 135.831 3.00688ZM31 23.3545C32.1114 23.2995 33.0551 22.8503 33.8313 22.0069C34.6075 21.1635 34.9956 20.1642 34.9956 19C34.9956 20.1642 35.3837 21.1635 36.1599 22.0069C36.9361 22.8503 37.8798 23.2903 39 23.3545C38.2679 23.3911 37.5976 23.602 36.9802 24.0053C36.3716 24.3995 35.8864 24.9312 35.5248 25.5913C35.172 26.2513 34.9956 26.9572 34.9956 27.7273C34.9956 26.563 34.6075 25.5546 33.8313 24.7112C33.0551 23.8587 32.1114 23.4095 31 23.3545ZM0 36.3545C1.11136 36.2995 2.05513 35.8503 2.83131 35.0069C3.6075 34.1635 3.99559 33.1642 3.99559 32C3.99559 33.1642 4.38368 34.1635 5.15987 35.0069C5.93605 35.8503 6.87982 36.2903 8 36.3545C7.26792 36.3911 6.59757 36.602 5.98015 37.0053C5.37155 37.3995 4.88644 37.9312 4.52481 38.5913C4.172 39.2513 3.99559 39.9572 3.99559 40.7273C3.99559 39.563 3.6075 38.5546 2.83131 37.7112C2.05513 36.8587 1.11136 36.4095 0 36.3545ZM56.8313 24.0069C56.0551 24.8503 55.1114 25.2995 54 25.3545C55.1114 25.4095 56.0551 25.8587 56.8313 26.7112C57.6075 27.5546 57.9956 28.563 57.9956 29.7273C57.9956 28.9572 58.172 28.2513 58.5248 27.5913C58.8864 26.9312 59.3716 26.3995 59.9802 26.0053C60.5976 25.602 61.2679 25.3911 62 25.3545C60.8798 25.2903 59.9361 24.8503 59.1599 24.0069C58.3837 23.1635 57.9956 22.1642 57.9956 21C57.9956 22.1642 57.6075 23.1635 56.8313 24.0069ZM81 25.3545C82.1114 25.2995 83.0551 24.8503 83.8313 24.0069C84.6075 23.1635 84.9956 22.1642 84.9956 21C84.9956 22.1642 85.3837 23.1635 86.1599 24.0069C86.9361 24.8503 87.8798 25.2903 89 25.3545C88.2679 25.3911 87.5976 25.602 86.9802 26.0053C86.3716 26.3995 85.8864 26.9312 85.5248 27.5913C85.172 28.2513 84.9956 28.9572 84.9956 29.7273C84.9956 28.563 84.6075 27.5546 83.8313 26.7112C83.0551 25.8587 82.1114 25.4095 81 25.3545ZM136 36.3545C137.111 36.2995 138.055 35.8503 138.831 35.0069C139.607 34.1635 139.996 33.1642 139.996 32C139.996 33.1642 140.384 34.1635 141.16 35.0069C141.936 35.8503 142.88 36.2903 144 36.3545C143.268 36.3911 142.598 36.602 141.98 37.0053C141.372 37.3995 140.886 37.9312 140.525 38.5913C140.172 39.2513 139.996 39.9572 139.996 40.7273C139.996 39.563 139.607 38.5546 138.831 37.7112C138.055 36.8587 137.111 36.4095 136 36.3545ZM101.831 49.0069C101.055 49.8503 100.111 50.2995 99 50.3545C100.111 50.4095 101.055 50.8587 101.831 51.7112C102.607 52.5546 102.996 53.563 102.996 54.7273C102.996 53.9572 103.172 53.2513 103.525 52.5913C103.886 51.9312 104.372 51.3995 104.98 51.0053C105.598 50.602 106.268 50.3911 107 50.3545C105.88 50.2903 104.936 49.8503 104.16 49.0069C103.384 48.1635 102.996 47.1642 102.996 46C102.996 47.1642 102.607 48.1635 101.831 49.0069Z" fill="currentColor" />
-                        </svg>
-                    </div>
-                    <div class="theme-switch__circle-container">
-                        <div class="theme-switch__sun-moon-container">
-                            <div class="theme-switch__moon">
-                                <div class="theme-switch__spot"></div>
-                                <div class="theme-switch__spot"></div>
-                                <div class="theme-switch__spot"></div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </label>
         </div>
-        <p class="archive-footer-copy">© 2026 Euan Paulse. Designed with purpose.</p>
     </footer>
 
     <!-- Media Modal -->
@@ -1098,9 +1310,7 @@
         </button>
 
         <div class="modal-content">
-            <div class="modal-media-container" id="modalMediaContainer">
-                <!-- Media will be inserted here -->
-            </div>
+            <div class="modal-media-container" id="modalMediaContainer"></div>
         </div>
 
         <button class="modal-nav next" id="modalNext" aria-label="Next media">
@@ -1113,13 +1323,35 @@
     </div>
 
     <script>
-        // Mouse spotlight effect
+        // Cursor following light effect
+        const cursorLight = document.getElementById('cursor-light');
+        let mouseX = 0;
+        let mouseY = 0;
+        let cursorX = 0;
+        let cursorY = 0;
+        const speed = 0.15;
+
         document.addEventListener('mousemove', (e) => {
-            const x = (e.clientX / window.innerWidth) * 100;
-            const y = (e.clientY / window.innerHeight) * 100;
-            document.documentElement.style.setProperty('--mouse-x', `${x}%`);
-            document.documentElement.style.setProperty('--mouse-y', `${y}%`);
+            mouseX = e.clientX;
+            mouseY = e.clientY;
+            cursorLight.classList.add('active');
         });
+
+        document.addEventListener('mouseleave', () => {
+            cursorLight.classList.remove('active');
+        });
+
+        function animateCursor() {
+            cursorX += (mouseX - cursorX) * speed;
+            cursorY += (mouseY - cursorY) * speed;
+            
+            cursorLight.style.left = cursorX + 'px';
+            cursorLight.style.top = cursorY + 'px';
+            
+            requestAnimationFrame(animateCursor);
+        }
+
+        animateCursor();
 
         // Media Modal Manager
         class MediaModal {
@@ -1141,14 +1373,12 @@
                 this.prevBtn.addEventListener('click', () => this.prev());
                 this.nextBtn.addEventListener('click', () => this.next());
                 
-                // Click outside to close
                 this.modal.addEventListener('click', (e) => {
                     if (e.target === this.modal) {
                         this.close();
                     }
                 });
 
-                // Keyboard navigation
                 document.addEventListener('keydown', (e) => {
                     if (!this.modal.classList.contains('active')) return;
                     
@@ -1221,10 +1451,8 @@
                     this.container.appendChild(img);
                 }
 
-                // Update counter
                 this.counter.textContent = `${this.currentIndex + 1} / ${this.media.length}`;
 
-                // Hide/show nav buttons
                 this.prevBtn.style.display = this.media.length > 1 ? 'flex' : 'none';
                 this.nextBtn.style.display = this.media.length > 1 ? 'flex' : 'none';
             }
@@ -1249,7 +1477,6 @@
             }
         }
 
-        // Initialize modal
         const modal = new MediaModal();
 
         // Media Slider Functionality
@@ -1262,7 +1489,6 @@
                 this.nextBtn = element.querySelector('.media-nav.next');
                 this.currentIndex = 0;
                 
-                // Parse media data from data attribute
                 try {
                     this.media = JSON.parse(element.getAttribute('data-media') || '[]');
                 } catch (e) {
@@ -1279,7 +1505,6 @@
                 this.renderDots();
                 this.attachEvents();
                 
-                // Hide nav buttons if only one item
                 if (this.media.length <= 1) {
                     if (this.prevBtn) this.prevBtn.style.display = 'none';
                     if (this.nextBtn) this.nextBtn.style.display = 'none';
@@ -1294,7 +1519,6 @@
                     mediaItem.className = 'media-item';
                     mediaItem.style.cursor = 'pointer';
                     
-                    // Add click to expand
                     mediaItem.addEventListener('click', (e) => {
                         e.stopPropagation();
                         modal.open(this.media, index);
@@ -1325,7 +1549,6 @@
                                 video.pause();
                                 playBtn.style.display = 'flex';
                             } else {
-                                // If paused, open modal instead
                                 modal.open(this.media, index);
                             }
                         });
@@ -1382,13 +1605,11 @@
             }
 
             goTo(index) {
-                // Pause any playing videos
                 this.pauseVideos();
                 
                 this.currentIndex = index;
                 this.track.style.transform = `translateX(-${index * 100}%)`;
                 
-                // Update dots
                 const dots = this.dotsContainer.querySelectorAll('.media-dot');
                 dots.forEach((dot, i) => {
                     dot.classList.toggle('active', i === index);
@@ -1433,7 +1654,6 @@
         // Make table rows clickable (excluding media sliders)
         document.querySelectorAll('.projects-table tbody tr').forEach(row => {
             row.addEventListener('click', function(e) {
-                // Don't trigger if clicking on media slider or links
                 if (e.target.closest('.media-slider') || e.target.closest('a')) {
                     return;
                 }
@@ -1444,29 +1664,6 @@
                 }
             });
         });
-
-        // Theme Toggle Functionality
-        function initThemeToggle() {
-            const themeToggle = document.getElementById('theme-toggle');
-            const currentTheme = localStorage.getItem('theme') || 'dark';
-
-            if (currentTheme === 'light') {
-                document.body.classList.add('light-theme');
-                themeToggle.checked = true;
-            }
-
-            themeToggle.addEventListener('change', function() {
-                if (this.checked) {
-                    document.body.classList.add('light-theme');
-                    localStorage.setItem('theme', 'light');
-                } else {
-                    document.body.classList.remove('light-theme');
-                    localStorage.setItem('theme', 'dark');
-                }
-            });
-        }
-
-        window.addEventListener('load', initThemeToggle);
     </script>
 </body>
 </html>
