@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
     <title>Euan Paulse - Community & Marketing Manager</title>
 
     <!-- Open Graph / Facebook -->
@@ -30,6 +30,7 @@
             margin: 0;
             padding: 0;
             box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
         }
 
         :root {
@@ -48,6 +49,8 @@
 
         html {
             scroll-behavior: smooth;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
         }
 
         body {
@@ -69,12 +72,16 @@
             pointer-events: none;
             z-index: 999;
             transform: translate(-50%, -50%);
-            transition: opacity 0.3s ease;
+            transition: opacity 0.3s ease, background 0.4s ease;
             opacity: 0;
         }
 
         .cursor-light.active {
             opacity: 1;
+        }
+
+        body.light-theme .cursor-light {
+            background: radial-gradient(circle, rgba(139, 94, 60, 0.18) 0%, rgba(196, 122, 58, 0.06) 50%, transparent 70%);
         }
 
         /* Grain overlay */
@@ -174,48 +181,96 @@
 
         .hero-shape {
             position: absolute;
-            border: 1px solid var(--mint-dim);
-            opacity: 0.4;
+            opacity: 0.5;
         }
 
+        /* Large thin circle — top right, teal tint in dark */
         .hero-shape-1 {
-            width: 300px;
-            height: 300px;
+            width: 420px;
+            height: 420px;
             border-radius: 50%;
-            top: 10%;
-            right: 5%;
+            border: 2px solid var(--mint-dim);
+            top: -5%;
+            right: 2%;
+            background: transparent;
             animation: float 12s ease-in-out infinite;
         }
 
+        /* Small lavender filled blob — overlapping the large circle */
         .hero-shape-2 {
-            width: 150px;
-            height: 150px;
-            top: 60%;
-            right: 15%;
-            animation: floatReverse 10s ease-in-out infinite;
-            animation-delay: -2s;
-        }
-
-        .hero-shape-3 {
-            width: 80px;
-            height: 80px;
+            width: 130px;
+            height: 130px;
             border-radius: 50%;
-            top: 30%;
-            right: 30%;
-            background: var(--mint-dim);
+            top: 22%;
+            right: 20%;
+            background: rgba(180, 170, 220, 0.35);
             border: none;
-            animation: float 8s ease-in-out infinite;
-            animation-delay: -4s;
+            animation: float 10s ease-in-out infinite;
+            animation-delay: -3s;
         }
 
+        /* Second large thin circle — lower, overlapping first */
+        .hero-shape-3 {
+            width: 340px;
+            height: 340px;
+            border-radius: 50%;
+            border: 2px solid rgba(180, 160, 130, 0.35);
+            top: 38%;
+            right: 8%;
+            background: transparent;
+            animation: floatReverse 14s ease-in-out infinite;
+            animation-delay: -5s;
+        }
+
+        /* Thin-stroked rectangle — bottom right corner */
         .hero-shape-4 {
             width: 200px;
             height: 200px;
-            bottom: 20%;
-            left: 60%;
-            border-radius: 30% 70% 70% 30% / 30% 30% 70% 70%;
-            animation: floatReverse 14s ease-in-out infinite;
-            animation-delay: -1s;
+            border-radius: 0;
+            border: 2px solid rgba(180, 160, 130, 0.28);
+            bottom: 8%;
+            right: 6%;
+            background: transparent;
+            animation: float 16s ease-in-out infinite;
+            animation-delay: -7s;
+        }
+
+        /* Dark mode — keep mint tint on circles */
+        body:not(.light-theme) .hero-shape-1 {
+            border-color: var(--mint-dim);
+        }
+
+        body:not(.light-theme) .hero-shape-3 {
+            border-color: var(--mint-dim);
+            opacity: 0.25;
+        }
+
+        body:not(.light-theme) .hero-shape-4 {
+            border-color: var(--mint-dim);
+            opacity: 0.2;
+        }
+
+        body:not(.light-theme) .hero-shape-2 {
+            background: var(--mint-dim);
+        }
+
+        /* Light mode — warm soft tones matching reference */
+        body.light-theme .hero-shape-1 {
+            border-color: rgba(45, 180, 170, 0.3);
+            background: radial-gradient(circle, rgba(45, 180, 170, 0.05) 0%, transparent 70%);
+        }
+
+        body.light-theme .hero-shape-2 {
+            background: rgba(180, 170, 220, 0.3);
+        }
+
+        body.light-theme .hero-shape-3 {
+            border-color: rgba(196, 150, 100, 0.35);
+            background: radial-gradient(circle, rgba(196, 150, 100, 0.04) 0%, transparent 70%);
+        }
+
+        body.light-theme .hero-shape-4 {
+            border-color: rgba(196, 150, 100, 0.3);
         }
 
         /* Animated hero elements */
@@ -893,6 +948,36 @@
             margin-bottom: 20px;
         }
 
+        /* Clickable project card link */
+        a.project-card-link {
+            display: block;
+            text-decoration: none;
+            color: inherit;
+        }
+
+        a.project-card-link .project-title {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        a.project-card-link .external-icon {
+            width: 16px;
+            height: 16px;
+            opacity: 0.5;
+            transition: opacity 0.3s ease, transform 0.3s ease;
+            flex-shrink: 0;
+        }
+
+        a.project-card-link:hover .external-icon {
+            opacity: 1;
+            transform: translate(2px, -2px);
+        }
+
+        .project-image-dark {
+            background: #000 !important;
+        }
+
         /* Testimonials Section */
         .testimonials {
             background: var(--ink);
@@ -1221,6 +1306,433 @@
         }
 
         /* Responsive */
+        /* ─── Light Theme ─────────────────────────────────────────── */
+        body.light-theme {
+            --ink: #f5f0e8;
+            --ink-light: #ede8df;
+            --ink-lighter: #e0d9ce;
+            --smoke: #7a6e62;
+            --smoke-light: #3d3229;
+            --cream: #2a1f14;
+            --white: #1a1008;
+            --mint: #8B5E3C;               /* warm brown replaces mint as accent */
+            --mint-dim: rgba(139, 94, 60, 0.12);
+            --mint-glow: rgba(139, 94, 60, 0.25);
+            --gold: #f5e001;
+        }
+
+        body.light-theme .nav {
+            background: linear-gradient(to bottom, #f5f0e8 0%, transparent 100%);
+        }
+
+        body.light-theme .nav.scrolled {
+            background: rgba(245, 240, 232, 0.97);
+        }
+
+        body.light-theme::before {
+            opacity: 0.04;
+        }
+
+        body.light-theme .hero::before {
+            background: radial-gradient(circle, rgba(139, 94, 60, 0.07) 0%, transparent 60%);
+        }
+
+        body.light-theme .about {
+            background: linear-gradient(180deg, #f5f0e8 0%, #ede8df 100%);
+        }
+
+        body.light-theme .experience {
+            background: #ede8df;
+        }
+
+        body.light-theme .projects {
+            background: linear-gradient(180deg, #ede8df 0%, #f5f0e8 100%);
+        }
+
+        body.light-theme .testimonials {
+            background: #f5f0e8;
+        }
+
+        body.light-theme .cta {
+            background: linear-gradient(180deg, #f5f0e8 0%, #ede8df 100%);
+        }
+
+        body.light-theme .timeline-card {
+            background: #faf7f2;
+            border-color: rgba(0,0,0,0.07);
+        }
+
+        body.light-theme .about-stats {
+            background: #faf7f2;
+            border-color: rgba(0,0,0,0.07);
+        }
+
+        body.light-theme .info-block {
+            background: #faf7f2;
+            border-color: rgba(0,0,0,0.07);
+        }
+
+        body.light-theme .project-card {
+            background: #faf7f2;
+            border-color: rgba(0,0,0,0.07);
+        }
+
+        body.light-theme .testimonial-card {
+            background: linear-gradient(135deg, #faf7f2 0%, #f5f0e8 100%);
+            border-color: rgba(0,0,0,0.07);
+        }
+
+        body.light-theme .tag {
+            background: rgba(139, 94, 60, 0.1);
+            color: #8B5E3C;
+        }
+
+        body.light-theme .btn-primary {
+            background: #8B5E3C;
+            color: #f5f0e8;
+        }
+
+        body.light-theme .btn-primary:hover {
+            background: #6b4a2e;
+            box-shadow: 0 20px 40px rgba(139, 94, 60, 0.3);
+        }
+
+        body.light-theme .btn-secondary {
+            color: var(--white);
+            border-color: rgba(26, 16, 8, 0.2);
+        }
+
+        body.light-theme .btn-secondary:hover {
+            border-color: #8B5E3C;
+            color: #8B5E3C;
+            box-shadow: none;
+        }
+
+        body.light-theme .nav-logo {
+            color: var(--white);
+        }
+
+        body.light-theme .nav-links a {
+            color: var(--smoke);
+        }
+
+        body.light-theme .nav-links a:hover {
+            color: var(--white);
+        }
+
+        body.light-theme .nav-links a::after {
+            background: #8B5E3C;
+        }
+
+        body.light-theme footer {
+            border-top-color: #e0d9ce;
+            background: #ede8df;
+        }
+
+        body.light-theme .footer-text {
+            color: var(--smoke);
+        }
+
+        body.light-theme .footer-links a {
+            color: var(--smoke);
+        }
+
+        body.light-theme .footer-links a:hover {
+            color: #8B5E3C;
+        }
+
+        body.light-theme .cta::before {
+            background: radial-gradient(circle, rgba(139, 94, 60, 0.05) 0%, transparent 50%);
+        }
+
+        body.light-theme .resume-link {
+            background: #8B5E3C;
+            color: #f5f0e8;
+        }
+
+        body.light-theme .resume-link:hover {
+            background: #6b4a2e;
+            box-shadow: 0 20px 40px rgba(139, 94, 60, 0.3);
+        }
+
+        body.light-theme .timeline-item::before {
+            border-color: #8B5E3C;
+        }
+
+        body.light-theme .timeline-item:hover::before {
+            background: #8B5E3C;
+            box-shadow: 0 0 20px rgba(139, 94, 60, 0.3);
+        }
+
+        body.light-theme .timeline::before {
+            background: linear-gradient(to bottom, #8B5E3C, #e0d9ce);
+        }
+
+        body.light-theme .timeline-description li::before {
+            background: #8B5E3C;
+        }
+
+        body.light-theme .timeline-company a {
+            color: #8B5E3C;
+        }
+
+        body.light-theme .section-number {
+            color: #8B5E3C;
+        }
+
+        body.light-theme .hero-label {
+            color: #8B5E3C;
+        }
+
+        body.light-theme .hero-label::before {
+            background: #8B5E3C;
+        }
+
+        body.light-theme .hero-name em {
+            color: #8B5E3C;
+        }
+
+        body.light-theme .stat-number {
+            color: #8B5E3C;
+        }
+
+        body.light-theme .about-content a {
+            color: #8B5E3C;
+        }
+
+        body.light-theme .about-content a::after {
+            background: #8B5E3C;
+        }
+
+        /* Preserve gold/white link behaviour in light mode */
+        body.light-theme .about-content a.gold-link {
+            color: var(--gold);
+        }
+
+        body.light-theme .about-content a.gold-link::after {
+            background: var(--gold);
+        }
+
+        body.light-theme .about-content a.white-link {
+            color: var(--white);
+        }
+
+        body.light-theme .about-content a.white-link::after {
+            background: var(--gold);
+        }
+
+        body.light-theme .about-content a.white-link:hover {
+            color: var(--gold);
+        }
+
+        body.light-theme .about-content a.white-link.partner-dimmed,
+        body.light-theme .about-content a.gold-link.partner-dimmed {
+            color: var(--white);
+        }
+
+        body.light-theme .project-card:hover .project-title {
+            color: #8B5E3C;
+        }
+
+        body.light-theme a.project-card-link:hover .external-icon {
+            color: #8B5E3C;
+        }
+
+        body.light-theme .testimonial-card::before {
+            color: #8B5E3C;
+        }
+
+        body.light-theme .testimonial-btn:hover {
+            background: #8B5E3C;
+            border-color: #8B5E3C;
+            color: #f5f0e8;
+        }
+
+        body.light-theme .testimonial-dot.active {
+            background: #8B5E3C;
+        }
+
+        body.light-theme .info-block:hover {
+            border-color: #8B5E3C;
+        }
+
+        body.light-theme .project-card:hover {
+            border-color: rgba(139, 94, 60, 0.3);
+        }
+
+        /* ─── Theme Switch Component ──────────────────────────────── */
+        .theme-switch {
+            --toggle-size: 6px;
+            --container-width: 5.625em;
+            --container-height: 2.5em;
+            --container-radius: 6.25em;
+            --container-light-bg: #3D7EAE;
+            --container-night-bg: #1D1F2C;
+            --circle-container-diameter: 3.375em;
+            --sun-moon-diameter: 2.125em;
+            --sun-bg: #ECCA2F;
+            --moon-bg: #C4C9D1;
+            --spot-color: #959DB1;
+            --circle-container-offset: calc((var(--circle-container-diameter) - var(--container-height)) / 2 * -1);
+            --stars-color: #fff;
+            --clouds-color: #F3FDFF;
+            --back-clouds-color: #AACADF;
+            --transition: .5s cubic-bezier(0, -0.02, 0.4, 1.25);
+            --circle-transition: .3s cubic-bezier(0, -0.02, 0.35, 1.17);
+        }
+
+        .theme-switch, .theme-switch *, .theme-switch *::before, .theme-switch *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-size: var(--toggle-size);
+        }
+
+        .theme-switch__container {
+            width: var(--container-width);
+            height: var(--container-height);
+            background-color: var(--container-light-bg);
+            border-radius: var(--container-radius);
+            overflow: hidden;
+            cursor: pointer;
+            box-shadow: 0em -0.062em 0.062em rgba(0,0,0,0.25), 0em 0.062em 0.125em rgba(255,255,255,0.94);
+            transition: var(--transition);
+            position: relative;
+        }
+
+        .theme-switch__container::before {
+            content: "";
+            position: absolute;
+            z-index: 1;
+            inset: 0;
+            box-shadow: 0em 0.05em 0.187em rgba(0,0,0,0.25) inset, 0em 0.05em 0.187em rgba(0,0,0,0.25) inset;
+            border-radius: var(--container-radius);
+        }
+
+        .theme-switch__checkbox {
+            display: none;
+        }
+
+        .theme-switch__circle-container {
+            width: var(--circle-container-diameter);
+            height: var(--circle-container-diameter);
+            background-color: rgba(255,255,255,0.1);
+            position: absolute;
+            left: var(--circle-container-offset);
+            top: var(--circle-container-offset);
+            border-radius: var(--container-radius);
+            box-shadow: inset 0 0 0 3.375em rgba(255,255,255,0.1), inset 0 0 0 3.375em rgba(255,255,255,0.1), 0 0 0 0.625em rgba(255,255,255,0.1), 0 0 0 1.25em rgba(255,255,255,0.1);
+            display: flex;
+            transition: var(--circle-transition);
+            pointer-events: none;
+        }
+
+        .theme-switch__sun-moon-container {
+            pointer-events: auto;
+            position: relative;
+            z-index: 2;
+            width: var(--sun-moon-diameter);
+            height: var(--sun-moon-diameter);
+            margin: auto;
+            border-radius: var(--container-radius);
+            background-color: var(--sun-bg);
+            box-shadow: 0.062em 0.062em 0.062em 0em rgba(254,255,239,0.61) inset, 0em -0.062em 0.062em 0em #a1872a inset;
+            filter: drop-shadow(0.062em 0.125em 0.125em rgba(0,0,0,0.25)) drop-shadow(0em 0.062em 0.125em rgba(0,0,0,0.25));
+            overflow: hidden;
+            transition: var(--transition);
+        }
+
+        .theme-switch__moon {
+            transform: translateX(100%);
+            width: 100%;
+            height: 100%;
+            background-color: var(--moon-bg);
+            border-radius: inherit;
+            box-shadow: 0.062em 0.062em 0.062em 0em rgba(254,255,239,0.61) inset, 0em -0.062em 0.062em 0em #969696 inset;
+            transition: var(--transition);
+            position: relative;
+        }
+
+        .theme-switch__spot {
+            position: absolute;
+            top: 0.75em;
+            left: 0.312em;
+            width: 0.75em;
+            height: 0.75em;
+            border-radius: var(--container-radius);
+            background-color: var(--spot-color);
+            box-shadow: 0em 0.0312em 0.062em rgba(0,0,0,0.25) inset;
+        }
+
+        .theme-switch__spot:nth-of-type(2) {
+            width: 0.375em;
+            height: 0.375em;
+            top: 0.937em;
+            left: 1.375em;
+        }
+
+        .theme-switch__spot:nth-last-of-type(3) {
+            width: 0.25em;
+            height: 0.25em;
+            top: 0.312em;
+            left: 0.812em;
+        }
+
+        .theme-switch__clouds {
+            width: 1.25em;
+            height: 1.25em;
+            background-color: var(--clouds-color);
+            border-radius: var(--container-radius);
+            position: absolute;
+            bottom: -0.625em;
+            left: 0.312em;
+            box-shadow: 0.937em 0.312em var(--clouds-color), -0.312em -0.312em var(--back-clouds-color), 1.437em 0.375em var(--clouds-color), 0.5em -0.125em var(--back-clouds-color), 2.187em 0 var(--clouds-color), 1.25em -0.062em var(--back-clouds-color), 2.937em 0.312em var(--clouds-color), 2em -0.312em var(--back-clouds-color), 3.625em -0.062em var(--clouds-color), 2.625em 0em var(--back-clouds-color), 4.5em -0.312em var(--clouds-color), 3.375em -0.437em var(--back-clouds-color), 4.625em -1.75em 0 0.437em var(--clouds-color), 4em -0.625em var(--back-clouds-color), 4.125em -2.125em 0 0.437em var(--back-clouds-color);
+            transition: 0.5s cubic-bezier(0, -0.02, 0.4, 1.25);
+        }
+
+        .theme-switch__stars-container {
+            position: absolute;
+            color: var(--stars-color);
+            top: -100%;
+            left: 0.312em;
+            width: 2.75em;
+            height: auto;
+            transform: translateY(0);
+            transition: var(--transition);
+        }
+
+        .theme-switch__checkbox:checked + .theme-switch__container {
+            background-color: var(--container-night-bg);
+        }
+
+        .theme-switch__checkbox:checked + .theme-switch__container .theme-switch__circle-container {
+            left: calc(100% - var(--circle-container-offset) - var(--circle-container-diameter));
+        }
+
+        .theme-switch__circle-container:hover {
+            left: calc(var(--circle-container-offset) + 0.187em);
+        }
+
+        .theme-switch__checkbox:checked + .theme-switch__container .theme-switch__circle-container:hover {
+            left: calc(100% - var(--circle-container-offset) - var(--circle-container-diameter) - 0.187em);
+        }
+
+        .theme-switch__checkbox:checked + .theme-switch__container .theme-switch__moon {
+            transform: translateX(0);
+        }
+
+        .theme-switch__checkbox:checked + .theme-switch__container .theme-switch__clouds {
+            bottom: -4.062em;
+        }
+
+        .theme-switch__checkbox:checked + .theme-switch__container .theme-switch__stars-container {
+            top: 50%;
+            transform: translateY(-50%);
+        }
+
+        /* ─── Responsive ─────────────────────────────────────────── */
+
+        /* Tablet */
         @media (max-width: 1024px) {
             section {
                 padding: 80px 6%;
@@ -1248,29 +1760,44 @@
             }
 
             .hero-shape-1 {
-                width: 200px;
-                height: 200px;
+                width: 280px;
+                height: 280px;
                 right: -5%;
             }
 
             .hero-shape-2 {
-                width: 100px;
-                height: 100px;
+                width: 90px;
+                height: 90px;
                 right: 10%;
             }
 
+            .hero-shape-3 {
+                width: 220px;
+                height: 220px;
+            }
+
             .hero-shape-4 {
-                width: 120px;
-                height: 120px;
-                left: 50%;
+                width: 130px;
+                height: 130px;
             }
         }
 
+        /* Mobile */
         @media (max-width: 768px) {
+            /* Global text safety */
+            * {
+                word-break: break-word;
+                overflow-wrap: break-word;
+            }
+
+            section {
+                padding: 64px 5%;
+            }
+
+            /* ── Hero ── */
             .hero {
-                padding: 120px 5% 60px;
+                padding: 100px 5% 60px;
                 min-height: auto;
-                padding-bottom: 80px;
             }
 
             .hero-label {
@@ -1283,7 +1810,7 @@
             }
 
             .hero-name {
-                font-size: clamp(44px, 14vw, 72px);
+                font-size: clamp(40px, 13vw, 72px);
                 margin-bottom: 20px;
             }
 
@@ -1291,23 +1818,46 @@
                 font-size: 16px;
                 margin-bottom: 32px;
                 line-height: 1.6;
+                max-width: 100%;
             }
 
             .hero-shapes {
                 display: none;
             }
 
+            .hero-cta {
+                flex-direction: column;
+                gap: 12px;
+            }
+
+            .btn {
+                width: 100%;
+                justify-content: center;
+                padding: 14px 24px;
+                font-size: 15px;
+            }
+
+            .scroll-hint {
+                display: none;
+            }
+
+            /* ── Nav ── */
+            .nav {
+                padding: 16px 5%;
+            }
+
             .nav-links {
                 display: none;
                 position: fixed;
-                top: 72px;
+                top: 64px;
                 left: 0;
                 right: 0;
                 background: var(--ink);
                 flex-direction: column;
-                padding: 24px;
+                padding: 16px 5%;
                 gap: 0;
                 border-bottom: 1px solid var(--ink-lighter);
+                z-index: 99;
             }
 
             .nav-links.active {
@@ -1317,47 +1867,34 @@
             .nav-links a {
                 padding: 16px 0;
                 border-bottom: 1px solid var(--ink-lighter);
+                font-size: 16px;
             }
 
             .nav-toggle {
                 display: flex;
             }
 
-            .hero-cta {
-                flex-direction: column;
-            }
-
-            .btn {
-                width: 100%;
-                justify-content: center;
-                padding: 14px 24px;
-            }
-
-            .scroll-hint {
-                display: none;
-            }
-
-            /* Section headers mobile */
+            /* ── Section headers ── */
             .section-header {
                 flex-direction: column;
                 align-items: flex-start;
-                gap: 12px;
+                gap: 8px;
                 margin-bottom: 40px;
             }
 
             .section-title {
-                font-size: 32px;
+                font-size: clamp(28px, 8vw, 40px);
             }
 
             .section-line {
                 display: none;
             }
 
-            /* About section mobile */
+            /* ── About ── */
             .about-stats {
                 grid-template-columns: repeat(2, 1fr);
                 gap: 16px;
-                padding: 24px;
+                padding: 24px 16px;
             }
 
             .stat-item {
@@ -1365,7 +1902,7 @@
             }
 
             .stat-number {
-                font-size: 36px;
+                font-size: clamp(28px, 8vw, 40px);
             }
 
             .stat-label {
@@ -1376,12 +1913,11 @@
                 font-size: 15px;
             }
 
-            /* Show mobile info blocks after content, hide desktop version */
             .about-info-mobile {
                 display: grid;
                 grid-template-columns: 1fr;
-                gap: 16px;
-                margin-top: 32px;
+                gap: 12px;
+                margin-top: 28px;
             }
 
             .about-info-desktop {
@@ -1390,26 +1926,32 @@
 
             .about-info-blocks {
                 grid-template-columns: 1fr;
-                gap: 16px;
+                gap: 12px;
                 margin-top: 20px;
             }
 
             .info-block {
-                padding: 16px 20px;
+                padding: 14px 16px;
             }
 
             .info-icon {
                 width: 40px;
                 height: 40px;
+                flex-shrink: 0;
             }
 
             .info-value {
-                font-size: 15px;
+                font-size: 14px;
+                line-height: 1.4;
             }
 
-            /* Timeline mobile */
+            /* ── Timeline / Experience ── */
             .timeline {
-                padding-left: 24px;
+                padding-left: 20px;
+            }
+
+            .timeline::before {
+                left: 0;
             }
 
             .timeline-item {
@@ -1418,25 +1960,32 @@
             }
 
             .timeline-item::before {
-                left: -24px;
+                left: -26px;
                 width: 10px;
                 height: 10px;
             }
 
+            /* Disable horizontal slide on mobile — clips content */
+            .timeline-card:hover {
+                transform: none;
+            }
+
             .timeline-card {
-                padding: 24px;
+                padding: 20px;
             }
 
             .timeline-role {
-                font-size: 20px;
+                font-size: 18px;
             }
 
             .timeline-description li {
                 font-size: 14px;
+                margin-bottom: 10px;
             }
 
             .tags {
                 gap: 6px;
+                margin-top: 16px;
             }
 
             .tag {
@@ -1444,32 +1993,43 @@
                 padding: 5px 12px;
             }
 
-            /* Projects mobile */
+            /* ── Projects ── */
             .projects-grid {
                 grid-template-columns: 1fr;
-                gap: 24px;
+                gap: 20px;
             }
 
             .project-card {
                 border-radius: 16px;
             }
 
+            /* Disable lift hover that can clip on iOS */
+            .project-card:hover {
+                transform: none;
+                box-shadow: none;
+            }
+
             .project-content {
-                padding: 20px;
+                padding: 18px;
             }
 
             .project-title {
-                font-size: 20px;
+                font-size: 18px;
             }
 
-            /* Testimonials mobile */
+            .project-description {
+                font-size: 13px;
+            }
+
+            /* ── Testimonials ── */
             .testimonials-track {
                 gap: 16px;
             }
 
             .testimonial-card {
                 flex: 0 0 100%;
-                padding: 28px;
+                max-width: 100%;
+                padding: 24px;
                 border-radius: 16px;
             }
 
@@ -1480,46 +2040,51 @@
             }
 
             .testimonial-quote {
-                font-size: 17px;
-                line-height: 1.5;
+                font-size: 16px;
+                line-height: 1.55;
+                margin-bottom: 24px;
             }
 
             .testimonial-controls {
-                margin-top: 32px;
+                margin-top: 28px;
                 gap: 12px;
             }
 
             .testimonial-btn {
-                width: 40px;
-                height: 40px;
+                width: 44px;
+                height: 44px;
             }
 
-            /* CTA mobile */
+            /* ── CTA ── */
             .cta {
-                padding: 100px 5%;
+                padding: 80px 5%;
             }
 
             .cta-title {
-                font-size: 36px;
+                font-size: clamp(32px, 9vw, 52px);
+                margin-bottom: 16px;
             }
 
             .cta-subtitle {
-                font-size: 16px;
+                font-size: 15px;
                 margin-bottom: 32px;
             }
 
             .cta-buttons {
                 flex-direction: column;
                 width: 100%;
+                align-items: stretch;
             }
 
+            /* ── Footer ── */
             footer {
                 flex-direction: column;
                 gap: 24px;
                 text-align: center;
+                padding: 40px 5%;
             }
 
-            /* Calendly modal mobile */
+            /* ── Calendly modal ── */
             .modal-content {
                 width: 95%;
                 height: 95vh;
@@ -1529,9 +2094,97 @@
             .modal-close {
                 top: 12px;
                 right: 12px;
-                width: 36px;
-                height: 36px;
+                width: 40px;
+                height: 40px;
                 font-size: 20px;
+            }
+        }
+
+        /* Small phones */
+        @media (max-width: 390px) {
+            section {
+                padding: 56px 4%;
+            }
+
+            .hero {
+                padding: 88px 4% 48px;
+            }
+
+            .hero-name {
+                font-size: clamp(36px, 12vw, 56px);
+            }
+
+            .about-stats {
+                grid-template-columns: 1fr;
+            }
+
+            .stat-number {
+                font-size: 36px;
+            }
+
+            .timeline-card {
+                padding: 16px;
+            }
+
+            .testimonial-card {
+                padding: 20px;
+            }
+
+            .testimonial-quote {
+                font-size: 15px;
+            }
+
+            .cta {
+                padding: 64px 4%;
+            }
+        }
+
+        /* Touch devices — always show controls, remove hover transforms */
+        @media (hover: none) and (pointer: coarse) {
+            .info-block:hover {
+                transform: none;
+            }
+
+            .project-card:hover {
+                transform: none;
+                box-shadow: none;
+            }
+
+            .timeline-card:hover {
+                transform: none;
+            }
+
+            .btn:hover {
+                transform: none;
+            }
+
+            /* Bigger tap targets */
+            .nav-links a {
+                min-height: 44px;
+                display: flex;
+                align-items: center;
+            }
+
+            .footer-links a {
+                min-width: 44px;
+                min-height: 44px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            }
+
+            /* Project cards — active tap feedback instead of hover */
+            .project-card:active {
+                transform: scale(0.98);
+                opacity: 0.9;
+                transition: transform 0.1s ease, opacity 0.1s ease;
+            }
+        }
+
+        /* Footer toggle stacks cleanly on mobile */
+        @media (max-width: 768px) {
+            .footer-links {
+                justify-content: center;
             }
         }
     </style>
@@ -1557,6 +2210,26 @@
             <span></span>
             <span></span>
         </button>
+        <label class="theme-switch" title="Toggle theme" aria-label="Toggle theme" style="margin-left: 16px;">
+            <input type="checkbox" class="theme-switch__checkbox" id="theme-toggle">
+            <div class="theme-switch__container">
+                <div class="theme-switch__clouds"></div>
+                <div class="theme-switch__stars-container">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 144 55" fill="none">
+                        <path fill-rule="evenodd" clip-rule="evenodd" d="M135.831 3.00688C135.055 3.85027 134.111 4.29946 133 4.35447C134.111 4.40947 135.055 4.85867 135.831 5.71123C136.607 6.55462 136.996 7.56303 136.996 8.72727C136.996 7.95722 137.172 7.25134 137.525 6.59129C137.886 5.93124 138.372 5.39954 138.98 5.00535C139.598 4.60199 140.268 4.39114 141 4.35447C139.88 4.2903 138.936 3.85027 138.16 3.00688C137.384 2.16348 136.996 1.16425 136.996 0C136.996 1.16425 136.607 2.16348 135.831 3.00688ZM31 23.3545C32.1114 23.2995 33.0551 22.8503 33.8313 22.0069C34.6075 21.1635 34.9956 20.1642 34.9956 19C34.9956 20.1642 35.3837 21.1635 36.1599 22.0069C36.9361 22.8503 37.8798 23.2903 39 23.3545C38.2679 23.3911 37.5976 23.602 36.9802 24.0053C36.3716 24.3995 35.8864 24.9312 35.5248 25.5913C35.172 26.2513 34.9956 26.9572 34.9956 27.7273C34.9956 26.563 34.6075 25.5546 33.8313 24.7112C33.0551 23.8587 32.1114 23.4095 31 23.3545ZM0 36.3545C1.11136 36.2995 2.05513 35.8503 2.83131 35.0069C3.6075 34.1635 3.99559 33.1642 3.99559 32C3.99559 33.1642 4.38368 34.1635 5.15987 35.0069C5.93605 35.8503 6.87982 36.2903 8 36.3545C7.26792 36.3911 6.59757 36.602 5.98015 37.0053C5.37155 37.3995 4.88644 37.9312 4.52481 38.5913C4.172 39.2513 3.99559 39.9572 3.99559 40.7273C3.99559 39.563 3.6075 38.5546 2.83131 37.7112C2.05513 36.8587 1.11136 36.4095 0 36.3545ZM56.8313 24.0069C56.0551 24.8503 55.1114 25.2995 54 25.3545C55.1114 25.4095 56.0551 25.8587 56.8313 26.7112C57.6075 27.5546 57.9956 28.563 57.9956 29.7273C57.9956 28.9572 58.172 28.2513 58.5248 27.5913C58.8864 26.9312 59.3716 26.3995 59.9802 26.0053C60.5976 25.602 61.2679 25.3911 62 25.3545C60.8798 25.2903 59.9361 24.8503 59.1599 24.0069C58.3837 23.1635 57.9956 22.1642 57.9956 21C57.9956 22.1642 57.6075 23.1635 56.8313 24.0069ZM81 25.3545C82.1114 25.2995 83.0551 24.8503 83.8313 24.0069C84.6075 23.1635 84.9956 22.1642 84.9956 21C84.9956 22.1642 85.3837 23.1635 86.1599 24.0069C86.9361 24.8503 87.8798 25.2903 89 25.3545C88.2679 25.3911 87.5976 25.602 86.9802 26.0053C86.3716 26.3995 85.8864 26.9312 85.5248 27.5913C85.172 28.2513 84.9956 28.9572 84.9956 29.7273C84.9956 28.563 84.6075 27.5546 83.8313 26.7112C83.0551 25.8587 82.1114 25.4095 81 25.3545ZM136 36.3545C137.111 36.2995 138.055 35.8503 138.831 35.0069C139.607 34.1635 139.996 33.1642 139.996 32C139.996 33.1642 140.384 34.1635 141.16 35.0069C141.936 35.8503 142.88 36.2903 144 36.3545C143.268 36.3911 142.598 36.602 141.98 37.0053C141.372 37.3995 140.886 37.9312 140.525 38.5913C140.172 39.2513 139.996 39.9572 139.996 40.7273C139.996 39.563 139.607 38.5546 138.831 37.7112C138.055 36.8587 137.111 36.4095 136 36.3545ZM101.831 49.0069C101.055 49.8503 100.111 50.2995 99 50.3545C100.111 50.4095 101.055 50.8587 101.831 51.7112C102.607 52.5546 102.996 53.563 102.996 54.7273C102.996 53.9572 103.172 53.2513 103.525 52.5913C103.886 51.9312 104.372 51.3995 104.98 51.0053C105.598 50.602 106.268 50.3911 107 50.3545C105.88 50.2903 104.936 49.8503 104.16 49.0069C103.384 48.1635 102.996 47.1642 102.996 46C102.996 47.1642 102.607 48.1635 101.831 49.0069Z" fill="currentColor"/>
+                    </svg>
+                </div>
+                <div class="theme-switch__circle-container">
+                    <div class="theme-switch__sun-moon-container">
+                        <div class="theme-switch__moon">
+                            <div class="theme-switch__spot"></div>
+                            <div class="theme-switch__spot"></div>
+                            <div class="theme-switch__spot"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </label>
     </nav>
 
     <!-- Hero Section -->
@@ -1608,11 +2281,11 @@
 
         <div class="about-grid">
             <div class="about-content">
-                <p>I entered Web3 at 17, built my expertise from the ground up, and progressed into leadership roles through consistent performance. Since 2022, I've worked on <strong>25+ Web3 projects</strong> across Solana NFT and DeFi, contributing through community management, outreach & partnerships development, moderation and social media campaigns.</p>
+                <p>I entered Web3 at 17, built my expertise from the ground up, and progressed into leadership roles through consistent performance. Since 2022, I've worked on <strong>25+ brands and projects</strong> across across Solana and broader ecosystems, contributing through community management, outreach & partnerships development, moderation and social media campaigns.</p>
 
-                <p>I hold a <strong>BCom in Marketing Management</strong>, allowing me to combine strategic marketing principles with hands-on community execution.</p>
+                <p>I am a <strong>BCom Marketing Management graduate</strong>, allowing me to combine strategic marketing principles with hands-on community execution.</p>
 
-                <p>One of my most significant accomplishments was serving as Global Moderator and Live Events Host for Reign of Titans, a Fortune 500-backed Web3 gaming startup by <a href="https://www.ab-inbev.com/" target="_blank" class="white-link" id="abinbev-link">AB InBev</a> / <a href="https://www.anheuser-busch.com/" target="_blank" class="gold-link" id="anheuser-link">Anheuser-Busch</a>, from February 2024 to January 2026.</p>
+                <p>One of my most significant roles was serving as Global Moderator and Live Events Host for Reign of Titans, a Fortune 500-backed Web3 gaming startup by <a href="https://www.ab-inbev.com/" target="_blank" class="white-link" id="abinbev-link">AB InBev</a> / <a href="https://www.anheuser-busch.com/" target="_blank" class="gold-link" id="anheuser-link">Anheuser-Busch</a>, from February 2024 to January 2026.</p>
 
                 <p>I excel at leading communities from the front. Focusing on creating safe, engaging, and well-managed spaces that support both user experience and project growth.</p>
                 
@@ -1633,7 +2306,8 @@
                         </div>
                         <div class="info-content">
                             <div class="info-label">Education</div>
-                            <div class="info-value">MANCOSA</div>
+                            <div class="info-value">Bachelor of Commerce in Marketing Management</div>
+                            <div style="font-size: 12px; font-weight: 400; opacity: 0.6; margin-top: 2px;">MANCOSA</div>
                         </div>
                         <svg class="info-link-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                             <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
@@ -1677,7 +2351,8 @@
                         </div>
                         <div class="info-content">
                             <div class="info-label">Education</div>
-                            <div class="info-value">MANCOSA</div>
+                            <div class="info-value">Bachelor of Commerce in Marketing Management</div>
+                            <div style="font-size: 12px; font-weight: 400; opacity: 0.6; margin-top: 2px;">MANCOSA</div>
                         </div>
                         <svg class="info-link-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                             <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
@@ -1700,7 +2375,38 @@
         </div>
 
         <div class="projects-grid">
-            <div class="project-card">
+            <div class="project-card" onclick="window.location.href='archive.html#project-olympus'" style="cursor:pointer;">
+                <div class="project-image project-image-dark">
+                    <img src="olympus-logo.png" alt="Olympus">
+                </div>
+                <div class="project-content">
+                    <h3 class="project-title">Olympus</h3>
+                    <p class="project-description">A web-based Polymarket trading platform offering both manual trading and automated copy trading. Mirror the trades of top-performing wallets in real time, with customisable risk settings including stop-loss, take-profit, market filters, and position sizing. Built by the SOL Decoder team.</p>
+                    <div class="tags">
+                        <span class="tag">Polymarket</span>
+                        <span class="tag">Copy Trading</span>
+                        <span class="tag">DeFi</span>
+                        <span class="tag">Automation</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="project-card" onclick="window.location.href='archive.html#project-soldecoder'" style="cursor:pointer;">
+                <div class="project-image project-image-dark">
+                    <img src="soldecoder-logo.jpg" alt="SOL Decoder">
+                </div>
+                <div class="project-content">
+                    <h3 class="project-title">SOL Decoder</h3>
+                    <p class="project-description">A desktop-based automated farming bot for Meteora DLMMs that generates SOL passively by copy trading high-level traders providing liquidity to high-volume pools. Also farms airdrops from Meteora, Jupiter, and other DeFi protocols simultaneously. Features social trading via Discord bot, encrypted key storage, and 24/7 cloud operation.</p>
+                    <div class="tags">
+                        <span class="tag">DeFi</span>
+                        <span class="tag">Automation</span>
+                        <span class="tag">Copy Trading</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="project-card" onclick="window.location.href='archive.html#project-ratio'" style="cursor:pointer;">
                 <div class="project-image">
                     <img src="ratioweb3-logo.png" alt="Ratio">
                 </div>
@@ -1715,7 +2421,7 @@
                 </div>
             </div>
 
-            <div class="project-card">
+            <div class="project-card" onclick="window.location.href='archive.html#project-rot'" style="cursor:pointer;">
                 <div class="project-image">
                     <img src="rot-2.png" alt="Reign of Titans">
                 </div>
@@ -1731,7 +2437,7 @@
                 </div>
             </div>
 
-            <div class="project-card">
+            <div class="project-card" onclick="window.location.href='archive.html#project-silicons'" style="cursor:pointer;">
                 <div class="project-image">
                     <img src="silicons-1.png" alt="SILICONS">
                 </div>
@@ -1767,6 +2473,37 @@
         </div>
 
         <div class="timeline">
+            <div class="timeline-item">
+                <div class="timeline-date">2026 – Present</div>
+                <div class="timeline-card">
+                    <h3 class="timeline-role">Community / Social Media Manager</h3>
+                    <p class="timeline-company">
+                        <a href="https://x.com/SOL_Decoder" target="_blank">
+                            SOL Decoder / Olympus
+                            <svg class="external-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
+                                <polyline points="15 3 21 3 21 9"></polyline>
+                                <line x1="10" y1="14" x2="21" y2="3"></line>
+                            </svg>
+                        </a>
+                    </p>
+                    <ul class="timeline-description">
+                        <li>Manage day-to-day community operations and moderation across Discord for SOL Decoder and Olympus</li>
+                        <li>Handle daily user queries, support tickets, and issue escalation for an active community of traders managing real capital</li>
+                        <li>Assist with product testing and relay user feedback to the internal team</li>
+                        <li>Manage and create content for Olympus on X, including announcements, product threads, and engagement replies</li>
+                        <li>Maintain community health and keep the server well-structured and welcoming for new and existing members</li>
+                    </ul>
+                    <div class="tags">
+                        <span class="tag">Community Management</span>
+                        <span class="tag">Moderation</span>
+                        <span class="tag">Social Media</span>
+                        <span class="tag">Content Creation</span>
+                        <span class="tag">Product Testing</span>
+                    </div>
+                </div>
+            </div>
+
             <div class="timeline-item">
                 <div class="timeline-date">2024 - 2026</div>
                 <div class="timeline-card">
@@ -2167,7 +2904,7 @@
         let mouseY = 0;
         let cursorX = 0;
         let cursorY = 0;
-        const speed = 0.15; // Lower = smoother, slower
+        const speed = 0.15;
 
         document.addEventListener('mousemove', (e) => {
             mouseX = e.clientX;
@@ -2179,8 +2916,16 @@
             cursorLight.classList.remove('active');
         });
 
+        // Update cursor colour immediately when theme toggles
+        document.getElementById('theme-toggle')?.addEventListener('change', function() {
+            if (this.checked) {
+                cursorLight.style.background = 'radial-gradient(circle, rgba(45, 212, 191, 0.15) 0%, transparent 70%)';
+            } else {
+                cursorLight.style.background = 'radial-gradient(circle, rgba(139, 94, 60, 0.18) 0%, rgba(196, 122, 58, 0.06) 50%, transparent 70%)';
+            }
+        });
+
         function animateCursor() {
-            // Smooth easing effect
             cursorX += (mouseX - cursorX) * speed;
             cursorY += (mouseY - cursorY) * speed;
             
@@ -2283,6 +3028,33 @@
 
         // Initialize
         document.addEventListener('DOMContentLoaded', initTestimonials);
+
+        // ── Theme Toggle ──────────────────────────────────────────
+        (function() {
+            const toggle = document.getElementById('theme-toggle');
+            if (!toggle) return;
+
+            const saved = localStorage.getItem('theme') || 'light';
+            if (saved === 'light') {
+                document.body.classList.add('light-theme');
+                toggle.checked = false;
+                if (cursorLight) cursorLight.style.background = 'radial-gradient(circle, rgba(139, 94, 60, 0.18) 0%, rgba(196, 122, 58, 0.06) 50%, transparent 70%)';
+            } else {
+                document.body.classList.remove('light-theme');
+                toggle.checked = true;
+                if (cursorLight) cursorLight.style.background = '';
+            }
+
+            toggle.addEventListener('change', function() {
+                if (this.checked) {
+                    document.body.classList.remove('light-theme');
+                    localStorage.setItem('theme', 'dark');
+                } else {
+                    document.body.classList.add('light-theme');
+                    localStorage.setItem('theme', 'light');
+                }
+            });
+        })();
     </script>
 </body>
 </html>

@@ -80,6 +80,10 @@
             opacity: 1;
         }
 
+        body.light-theme .cursor-light {
+            background: radial-gradient(circle, rgba(139, 94, 60, 0.12) 0%, transparent 70%);
+        }
+
         /* Grain overlay */
         body::before {
             content: '';
@@ -112,6 +116,13 @@
         /* Header */
         .archive-header {
             margin-bottom: 60px;
+        }
+
+        .archive-topbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 32px;
         }
 
         .back-link {
@@ -187,6 +198,18 @@
             transform: translateX(4px);
         }
 
+        .projects-table tbody tr.highlight-row {
+            border-color: var(--mint) !important;
+            box-shadow: 0 0 0 2px var(--mint-dim);
+            animation: highlightFade 2s ease forwards;
+        }
+
+        @keyframes highlightFade {
+            0%   { border-color: var(--mint); box-shadow: 0 0 0 3px var(--mint-dim); }
+            70%  { border-color: var(--mint); box-shadow: 0 0 0 3px var(--mint-dim); }
+            100% { border-color: rgba(255,255,255,0.05); box-shadow: none; }
+        }
+
         .projects-table td {
             padding: 24px 16px;
             vertical-align: top;
@@ -254,6 +277,8 @@
             height: 36px;
             border-radius: 8px;
             background: rgba(255,255,255,0.03);
+            position: relative;
+            z-index: 5;
         }
 
         .project-link:hover {
@@ -595,6 +620,13 @@
         .footer-links {
             display: flex;
             gap: 24px;
+            align-items: center;
+        }
+
+        .footer-links .theme-switch {
+            display: flex;
+            align-items: center;
+            height: 44px;
         }
 
         .footer-links a {
@@ -633,78 +665,135 @@
 
         @media (max-width: 968px) {
             .container {
-                padding: 100px 5% 60px;
+                padding: 80px 5% 60px;
             }
 
-            .projects-table {
-                display: block;
-                overflow-x: auto;
-                white-space: nowrap;
-            }
-
+            /* Hide table headers — we use card layout instead */
             .projects-table thead {
                 display: none;
             }
 
-            .projects-table tbody,
-            .projects-table tr,
-            .projects-table td {
+            /* Stack the table as cards */
+            .projects-table,
+            .projects-table tbody {
                 display: block;
                 width: 100%;
             }
 
             .projects-table tbody tr {
-                margin-bottom: 24px;
+                display: flex;
+                flex-direction: column;
+                width: 100%;
+                margin-bottom: 20px;
                 border-radius: 12px;
                 padding: 20px;
+                border: 1px solid rgba(255,255,255,0.07) !important;
+                /* cancel the desktop hover translateX that can clip content */
+                transition: background 0.3s ease, border-color 0.3s ease;
+            }
+
+            .projects-table tbody tr:hover {
+                transform: none;
             }
 
             .projects-table td {
-                padding: 12px 0;
+                display: block;
+                width: 100%;
+                padding: 6px 0;
                 border: none !important;
+                border-radius: 0 !important;
+                white-space: normal;
+                word-break: break-word;
+                overflow-wrap: break-word;
             }
 
-            .projects-table td:first-child,
-            .projects-table td:last-child {
-                border-radius: 0;
-            }
-
+            /* Year row — small label above title */
             .year-cell {
-                font-size: 12px;
-                margin-bottom: 8px;
+                font-size: 11px;
+                letter-spacing: 0.08em;
+                text-transform: uppercase;
+                color: var(--smoke);
+                padding-bottom: 4px !important;
             }
 
+            /* Project name + subtitle */
             .project-cell {
-                margin-bottom: 12px;
+                padding-bottom: 10px !important;
             }
 
+            .project-name {
+                font-size: 17px;
+            }
+
+            /* Description */
             .description-cell {
+                font-size: 14px;
                 max-width: 100%;
-                margin-bottom: 16px;
+                line-height: 1.65;
+                padding-bottom: 12px !important;
+                color: var(--smoke-light);
             }
 
+            /* Link — left-aligned, touch-friendly */
             .links-cell {
                 width: auto;
                 text-align: left;
-                margin-bottom: 16px;
+                padding-bottom: 12px !important;
             }
 
+            .project-link {
+                width: 44px;
+                height: 44px;
+                z-index: 5;
+            }
+
+            /* Media fills full card width */
             .media-cell {
                 width: 100%;
-                padding: 0;
+                padding: 0 !important;
             }
 
             .media-slider,
             .static-media {
-                height: 200px;
+                height: 220px;
+                border-radius: 10px;
+            }
+
+            /* Bigger nav arrows for fat fingers */
+            .media-nav {
+                width: 36px;
+                height: 36px;
+                opacity: 1;
+            }
+
+            .media-nav svg {
+                width: 16px;
+                height: 16px;
             }
 
             .archive-title {
-                font-size: clamp(36px, 10vw, 56px);
+                font-size: clamp(32px, 9vw, 56px);
             }
 
             .archive-subtitle {
-                font-size: 16px;
+                font-size: 15px;
+            }
+
+            /* Modal — full-screen friendly */
+            .modal-content {
+                max-width: 100%;
+                max-height: 100%;
+                padding: 0 12px;
+            }
+
+            .modal-media-container {
+                max-height: 80vh;
+            }
+
+            .modal-media-container img,
+            .modal-media-container video {
+                max-height: 80vh;
+                border-radius: 8px;
             }
 
             .modal-nav {
@@ -712,19 +801,30 @@
                 height: 44px;
             }
 
+            .modal-nav svg {
+                width: 20px;
+                height: 20px;
+            }
+
             .modal-nav.prev {
-                left: 16px;
+                left: 8px;
             }
 
             .modal-nav.next {
-                right: 16px;
+                right: 8px;
             }
 
             .modal-close {
-                top: 16px;
-                right: 16px;
+                top: 12px;
+                right: 12px;
                 width: 44px;
                 height: 44px;
+            }
+
+            .modal-counter {
+                bottom: 16px;
+                font-size: 13px;
+                padding: 8px 16px;
             }
 
             footer {
@@ -737,21 +837,292 @@
 
         @media (max-width: 480px) {
             .container {
-                padding: 90px 5% 50px;
+                padding: 72px 4% 48px;
+            }
+
+            .archive-header {
+                margin-bottom: 40px;
+            }
+
+            .archive-title {
+                font-size: clamp(28px, 8vw, 44px);
+            }
+
+            .archive-subtitle {
+                font-size: 14px;
+            }
+
+            .projects-table tbody tr {
+                padding: 16px;
+                margin-bottom: 16px;
+            }
+
+            .project-name {
+                font-size: 16px;
+            }
+
+            .description-cell {
+                font-size: 13px;
             }
 
             .media-slider,
             .static-media {
-                height: 180px;
+                height: 200px;
+            }
+
+            .modal-nav.prev {
+                left: 4px;
+            }
+
+            .modal-nav.next {
+                right: 4px;
             }
         }
 
-        /* Touch device optimizations */
+        /* Touch device — always show nav arrows and make dots bigger */
         @media (hover: none) and (pointer: coarse) {
             .media-nav {
                 opacity: 1;
             }
+
+            .media-dot {
+                width: 8px;
+                height: 8px;
+            }
+
+            .media-dot.active {
+                width: 24px;
+            }
+
+            /* Prevent text selection on tap-hold */
+            .projects-table tbody tr {
+                -webkit-user-select: none;
+                user-select: none;
+            }
+
+            /* Highlight animation works in card/mobile layout too */
+            .projects-table tbody tr.highlight-row {
+                border-color: var(--mint) !important;
+                box-shadow: 0 0 0 2px var(--mint-dim);
+            }
         }
+
+        /* Footer toggle stacks cleanly on mobile */
+        @media (max-width: 968px) {
+            .footer-links {
+                justify-content: center;
+            }
+
+            .footer-links .theme-switch {
+                margin-left: 4px;
+            }
+        }
+        /* ─── Light Theme ─────────────────────────────────────────── */
+        body.light-theme {
+            --ink: #f5f0e8;
+            --ink-light: #ede8df;
+            --ink-lighter: #e0d9ce;
+            --smoke: #7a6e62;
+            --smoke-light: #3d3229;
+            --cream: #2a1f14;
+            --white: #1a1008;
+            --mint: #8B5E3C;
+            --mint-dim: rgba(139, 94, 60, 0.12);
+            --mint-glow: rgba(139, 94, 60, 0.25);
+        }
+
+        body.light-theme .projects-table tbody tr {
+            background: #faf7f2;
+            border-color: rgba(0,0,0,0.07) !important;
+        }
+
+        body.light-theme .projects-table tbody tr:hover {
+            background: #f5f0e8;
+            border-color: #8B5E3C !important;
+        }
+
+        body.light-theme .projects-table th {
+            background: #f5f0e8;
+            border-bottom-color: #e0d9ce;
+            color: #8B5E3C;
+        }
+
+        body.light-theme .project-link {
+            background: rgba(139, 94, 60, 0.08);
+            color: #8B5E3C;
+        }
+
+        body.light-theme .project-link:hover {
+            background: rgba(139, 94, 60, 0.15);
+            color: #6b4a2e;
+        }
+
+        body.light-theme .media-slider,
+        body.light-theme .static-media {
+            background: #e0d9ce;
+        }
+
+        body.light-theme .media-dot.active {
+            background: #8B5E3C;
+        }
+
+        body.light-theme .archive-title {
+            color: #1a1008;
+        }
+
+        body.light-theme .back-link {
+            color: #8B5E3C;
+        }
+
+        body.light-theme footer {
+            border-top-color: #e0d9ce;
+            background: #ede8df;
+        }
+
+        body.light-theme .footer-text {
+            color: #7a6e62;
+        }
+
+        body.light-theme .footer-links a {
+            color: #7a6e62;
+        }
+
+        body.light-theme .footer-links a:hover {
+            color: #8B5E3C;
+        }
+
+        body.light-theme .project-subtitle {
+            color: #8B5E3C;
+        }
+
+        /* ─── Theme Switch Component ──────────────────────────────── */
+        .theme-switch {
+            --toggle-size: 6px;
+            --container-width: 5.625em;
+            --container-height: 2.5em;
+            --container-radius: 6.25em;
+            --container-light-bg: #3D7EAE;
+            --container-night-bg: #1D1F2C;
+            --circle-container-diameter: 3.375em;
+            --sun-moon-diameter: 2.125em;
+            --sun-bg: #ECCA2F;
+            --moon-bg: #C4C9D1;
+            --spot-color: #959DB1;
+            --circle-container-offset: calc((var(--circle-container-diameter) - var(--container-height)) / 2 * -1);
+            --stars-color: #fff;
+            --clouds-color: #F3FDFF;
+            --back-clouds-color: #AACADF;
+            --transition: .5s cubic-bezier(0, -0.02, 0.4, 1.25);
+            --circle-transition: .3s cubic-bezier(0, -0.02, 0.35, 1.17);
+        }
+
+        .theme-switch, .theme-switch *, .theme-switch *::before, .theme-switch *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-size: var(--toggle-size);
+        }
+
+        .theme-switch__container {
+            width: var(--container-width);
+            height: var(--container-height);
+            background-color: var(--container-light-bg);
+            border-radius: var(--container-radius);
+            overflow: hidden;
+            cursor: pointer;
+            box-shadow: 0em -0.062em 0.062em rgba(0,0,0,0.25), 0em 0.062em 0.125em rgba(255,255,255,0.94);
+            transition: var(--transition);
+            position: relative;
+        }
+
+        .theme-switch__container::before {
+            content: "";
+            position: absolute;
+            z-index: 1;
+            inset: 0;
+            box-shadow: 0em 0.05em 0.187em rgba(0,0,0,0.25) inset;
+            border-radius: var(--container-radius);
+        }
+
+        .theme-switch__checkbox { display: none; }
+
+        .theme-switch__circle-container {
+            width: var(--circle-container-diameter);
+            height: var(--circle-container-diameter);
+            background-color: rgba(255,255,255,0.1);
+            position: absolute;
+            left: var(--circle-container-offset);
+            top: var(--circle-container-offset);
+            border-radius: var(--container-radius);
+            box-shadow: inset 0 0 0 3.375em rgba(255,255,255,0.1), 0 0 0 0.625em rgba(255,255,255,0.1), 0 0 0 1.25em rgba(255,255,255,0.1);
+            display: flex;
+            transition: var(--circle-transition);
+            pointer-events: none;
+        }
+
+        .theme-switch__sun-moon-container {
+            pointer-events: auto;
+            position: relative;
+            z-index: 2;
+            width: var(--sun-moon-diameter);
+            height: var(--sun-moon-diameter);
+            margin: auto;
+            border-radius: var(--container-radius);
+            background-color: var(--sun-bg);
+            box-shadow: 0.062em 0.062em 0.062em 0em rgba(254,255,239,0.61) inset, 0em -0.062em 0.062em 0em #a1872a inset;
+            filter: drop-shadow(0.062em 0.125em 0.125em rgba(0,0,0,0.25));
+            overflow: hidden;
+            transition: var(--transition);
+        }
+
+        .theme-switch__moon {
+            transform: translateX(100%);
+            width: 100%; height: 100%;
+            background-color: var(--moon-bg);
+            border-radius: inherit;
+            box-shadow: 0.062em 0.062em 0.062em 0em rgba(254,255,239,0.61) inset, 0em -0.062em 0.062em 0em #969696 inset;
+            transition: var(--transition);
+            position: relative;
+        }
+
+        .theme-switch__spot {
+            position: absolute;
+            top: 0.75em; left: 0.312em;
+            width: 0.75em; height: 0.75em;
+            border-radius: var(--container-radius);
+            background-color: var(--spot-color);
+            box-shadow: 0em 0.0312em 0.062em rgba(0,0,0,0.25) inset;
+        }
+        .theme-switch__spot:nth-of-type(2) { width: 0.375em; height: 0.375em; top: 0.937em; left: 1.375em; }
+        .theme-switch__spot:nth-last-of-type(3) { width: 0.25em; height: 0.25em; top: 0.312em; left: 0.812em; }
+
+        .theme-switch__clouds {
+            width: 1.25em; height: 1.25em;
+            background-color: var(--clouds-color);
+            border-radius: var(--container-radius);
+            position: absolute;
+            bottom: -0.625em; left: 0.312em;
+            box-shadow: 0.937em 0.312em var(--clouds-color), -0.312em -0.312em var(--back-clouds-color), 1.437em 0.375em var(--clouds-color), 0.5em -0.125em var(--back-clouds-color), 2.187em 0 var(--clouds-color), 1.25em -0.062em var(--back-clouds-color), 2.937em 0.312em var(--clouds-color), 2em -0.312em var(--back-clouds-color), 3.625em -0.062em var(--clouds-color), 2.625em 0em var(--back-clouds-color), 4.5em -0.312em var(--clouds-color), 3.375em -0.437em var(--back-clouds-color), 4.625em -1.75em 0 0.437em var(--clouds-color), 4em -0.625em var(--back-clouds-color), 4.125em -2.125em 0 0.437em var(--back-clouds-color);
+            transition: 0.5s cubic-bezier(0, -0.02, 0.4, 1.25);
+        }
+
+        .theme-switch__stars-container {
+            position: absolute;
+            color: var(--stars-color);
+            top: -100%; left: 0.312em;
+            width: 2.75em; height: auto;
+            transform: translateY(0);
+            transition: var(--transition);
+        }
+
+        .theme-switch__checkbox:checked + .theme-switch__container { background-color: var(--container-night-bg); }
+        .theme-switch__checkbox:checked + .theme-switch__container .theme-switch__circle-container { left: calc(100% - var(--circle-container-offset) - var(--circle-container-diameter)); }
+        .theme-switch__circle-container:hover { left: calc(var(--circle-container-offset) + 0.187em); }
+        .theme-switch__checkbox:checked + .theme-switch__container .theme-switch__circle-container:hover { left: calc(100% - var(--circle-container-offset) - var(--circle-container-diameter) - 0.187em); }
+        .theme-switch__checkbox:checked + .theme-switch__container .theme-switch__moon { transform: translateX(0); }
+        .theme-switch__checkbox:checked + .theme-switch__container .theme-switch__clouds { bottom: -4.062em; }
+        .theme-switch__checkbox:checked + .theme-switch__container .theme-switch__stars-container { top: 50%; transform: translateY(-50%); }
+
     </style>
 </head>
 <body>
@@ -768,7 +1139,7 @@
                 Back to Main
             </a>
             <h1 class="archive-title">Project Archive</h1>
-            <p class="archive-subtitle">A comprehensive collection of my work across community management and digital marketing—from high-end NFT launches to global gaming platforms and marketing/management agencies.</p>
+            <p class="archive-subtitle">A comprehensive collection of my work across community management and digital marketing. From high-end brand launches to global gaming platforms and marketing agencies.</p>
         </div>
 
         <table class="projects-table">
@@ -782,8 +1153,78 @@
                 </tr>
             </thead>
             <tbody>
+                <!-- Project 0: Olympus -->
+                <tr id="project-olympus">
+                    <td class="year-cell">2026 — Present</td>
+                    <td class="project-cell">
+                        <div class="project-name">Olympus</div>
+                        <div class="project-subtitle">Community / Social Media Manager</div>
+                    </td>
+                    <td class="description-cell">A web-based Polymarket trading platform offering both manual trading and automated copy trading. Mirror the trades of top-performing wallets in real time, with customisable risk settings including stop-loss, take-profit, market filters, and position sizing. Built by the SOL Decoder team.</td>
+                    <td class="links-cell">
+                        <a href="https://olympusx.app" class="project-link" target="_blank" title="View project" aria-label="View project">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
+                                <polyline points="15 3 21 3 21 9"></polyline>
+                                <line x1="10" y1="14" x2="21" y2="3"></line>
+                            </svg>
+                        </a>
+                    </td>
+                    <td class="media-cell">
+                        <div class="media-slider" data-media='[{"type":"image","src":"olympus-logo.png"},{"type":"image","src":"olympus-1.png"},{"type":"video","src":"olympus-2.mp4"}]'>
+                            <div class="media-slider-track"></div>
+                            <button class="media-nav prev" aria-label="Previous media">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <polyline points="15 18 9 12 15 6"></polyline>
+                                </svg>
+                            </button>
+                            <button class="media-nav next" aria-label="Next media">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <polyline points="9 18 15 12 9 6"></polyline>
+                                </svg>
+                            </button>
+                            <div class="media-dots"></div>
+                        </div>
+                    </td>
+                </tr>
+
+                <!-- Project 0b: SOL Decoder -->
+                <tr id="project-soldecoder">
+                    <td class="year-cell">2026 — Present</td>
+                    <td class="project-cell">
+                        <div class="project-name">SOL Decoder</div>
+                        <div class="project-subtitle">Community / Social Media Manager</div>
+                    </td>
+                    <td class="description-cell">A desktop-based automated farming bot for Meteora DLMMs that generates SOL passively by copy trading high-level traders providing liquidity to high-volume pools. Also farms airdrops from Meteora, Jupiter, and other DeFi protocols simultaneously. Features social trading via Discord bot, encrypted key storage, and 24/7 cloud operation.</td>
+                    <td class="links-cell">
+                        <a href="https://x.com/SOL_Decoder" class="project-link" target="_blank" title="View project" aria-label="View project">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
+                                <polyline points="15 3 21 3 21 9"></polyline>
+                                <line x1="10" y1="14" x2="21" y2="3"></line>
+                            </svg>
+                        </a>
+                    </td>
+                    <td class="media-cell">
+                        <div class="media-slider" data-media='[{"type":"image","src":"soldecoder-logo.jpg"},{"type":"image","src":"soldecoder-1.png"},{"type":"image","src":"soldecoder-2.png"},{"type":"youtube","src":"https://www.youtube.com/watch?v=mKqwmsQuyAk"}]'>
+                            <div class="media-slider-track"></div>
+                            <button class="media-nav prev" aria-label="Previous media">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <polyline points="15 18 9 12 15 6"></polyline>
+                                </svg>
+                            </button>
+                            <button class="media-nav next" aria-label="Next media">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <polyline points="9 18 15 12 9 6"></polyline>
+                                </svg>
+                            </button>
+                            <div class="media-dots"></div>
+                        </div>
+                    </td>
+                </tr>
+
                 <!-- Project 1: RatioWeb3 -->
-                <tr>
+                <tr id="project-ratio">
                     <td class="year-cell">2025</td>
                     <td class="project-cell">
                         <div class="project-name">Ratio</div>
@@ -791,7 +1232,7 @@
                     </td>
                     <td class="description-cell">Digital marketing agency focused on performance marketing, viral community building, and growth strategies for digital startups.</td>
                     <td class="links-cell">
-                        <a href="https://www.ratioweb3.com/#home" class="project-link" target="_blank" title="View project" aria-label="View project" onclick="event.stopPropagation()">
+                        <a href="https://www.ratioweb3.com/#home" class="project-link" target="_blank" title="View project" aria-label="View project">
                             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                                 <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
                                 <polyline points="15 3 21 3 21 9"></polyline>
@@ -808,7 +1249,7 @@
                 </tr>
 
                 <!-- Project 2: Reign of Titans -->
-                <tr>
+                <tr id="project-rot">
                     <td class="year-cell">2024 — 2026</td>
                     <td class="project-cell">
                         <div class="project-name">Reign of Titans</div>
@@ -816,7 +1257,7 @@
                     </td>
                     <td class="description-cell">Enter the world of Ereo through RoT, a multiplayer PVP strategic card game. Available on PC, Google Play and the App Store.</td>
                     <td class="links-cell">
-                        <a href="https://reignoftitans.gg/" class="project-link" target="_blank" title="Try Game" aria-label="Try Game" onclick="event.stopPropagation()">
+                        <a href="https://reignoftitans.gg/" class="project-link" target="_blank" title="Try Game" aria-label="Try Game">
                             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                                 <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
                                 <polyline points="15 3 21 3 21 9"></polyline>
@@ -843,7 +1284,7 @@
                 </tr>
 
                 <!-- Project 3: Astra Anima -->
-                <tr>
+                <tr id="project-astra">
                     <td class="year-cell">2024</td>
                     <td class="project-cell">
                         <div class="project-name">Astra Anima (Sol Survivor)</div>
@@ -851,7 +1292,7 @@
                     </td>
                     <td class="description-cell">Astra Anima was the official project behind Sol Survivor, a quick-roguelike/adventure game. Players could play the game as any avatar based on prominent Solana figures.</td>
                     <td class="links-cell">
-                        <a href="https://arcjamie.itch.io/sol-legends" class="project-link" target="_blank" title="Try Game" aria-label="Try Game" onclick="event.stopPropagation()">
+                        <a href="https://arcjamie.itch.io/sol-legends" class="project-link" target="_blank" title="Try Game" aria-label="Try Game">
                             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                                 <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
                                 <polyline points="15 3 21 3 21 9"></polyline>
@@ -878,7 +1319,7 @@
                 </tr>
 
                 <!-- Project 4: SILICONS -->
-                <tr>
+                <tr id="project-silicons">
                     <td class="year-cell">2023 — 2025</td>
                     <td class="project-cell">
                         <div class="project-name">SILICONS</div>
@@ -886,7 +1327,7 @@
                     </td>
                     <td class="description-cell">SILICONS is a high-end 3D fashion collectible, designed around the ABSTRCT clothing brand. ABSTRCT was a clothing brand designed by the CAW Studio team. The launch rolled out their SS24' Capsule Collection line.</td>
                     <td class="links-cell">
-                        <a href="https://x.com/SILICONS_CAW" class="project-link" target="_blank" title="View project" aria-label="View project" onclick="event.stopPropagation()">
+                        <a href="https://x.com/SILICONS_CAW" class="project-link" target="_blank" title="View project" aria-label="View project">
                             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                                 <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
                                 <polyline points="15 3 21 3 21 9"></polyline>
@@ -913,7 +1354,7 @@
                 </tr>
 
                 <!-- Project 5: Excellerate -->
-                <tr>
+                <tr id="project-excellerate">
                     <td class="year-cell">2022 — 2023</td>
                     <td class="project-cell">
                         <div class="project-name">Excellerate</div>
@@ -921,7 +1362,7 @@
                     </td>
                     <td class="description-cell">Excellerate is a community management and operations services company that provides outsourced community, social media, and support teams to businesses across Web3 and digital industries.</td>
                     <td class="links-cell">
-                        <a href="https://www.linkedin.com/company/excellerateweb3/" class="project-link" target="_blank" title="View project" aria-label="View project" onclick="event.stopPropagation()">
+                        <a href="https://www.linkedin.com/company/excellerateweb3/" class="project-link" target="_blank" title="View project" aria-label="View project">
                             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                                 <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
                                 <polyline points="15 3 21 3 21 9"></polyline>
@@ -937,7 +1378,7 @@
                 </tr>
 
                 <!-- Project 6: RebelPoker -->
-                <tr>
+                <tr id="project-rebelpoker">
                     <td class="year-cell">2022</td>
                     <td class="project-cell">
                         <div class="project-name">RebelPoker</div>
@@ -966,7 +1407,7 @@
                 </tr>
 
                 <!-- Project 7: Unchained: Kingmaker -->
-                <tr>
+                <tr id="project-unchained">
                     <td class="year-cell">2022</td>
                     <td class="project-cell">
                         <div class="project-name">Unchained: Kingmaker</div>
@@ -995,7 +1436,7 @@
                 </tr>
 
                 <!-- Project 8: Sovana -->
-                <tr>
+                <tr id="project-sovana">
                     <td class="year-cell">2022</td>
                     <td class="project-cell">
                         <div class="project-name">Sovana</div>
@@ -1003,7 +1444,7 @@
                     </td>
                     <td class="description-cell">Sovana is an interoperable metaverse platform built to visualise the Solana NFT space, and arguably Solana's solution to the metaverse. Sovana aims to bring back the popularity of web-based MMORPGs, such as Club Penguin & Runescape with Web3.0 elements.</td>
                     <td class="links-cell">
-                        <a href="https://ryfo.medium.com/solanas-answer-to-the-metaverse-sovanadao-355244848383" class="project-link" target="_blank" title="View project" aria-label="View project" onclick="event.stopPropagation()">
+                        <a href="https://ryfo.medium.com/solanas-answer-to-the-metaverse-sovanadao-355244848383" class="project-link" target="_blank" title="View project" aria-label="View project">
                             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                                 <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
                                 <polyline points="15 3 21 3 21 9"></polyline>
@@ -1055,6 +1496,26 @@
                     <polyline points="22,6 12,13 2,6"></polyline>
                 </svg>
             </a>
+            <label class="theme-switch" title="Toggle theme" aria-label="Toggle theme">
+                <input type="checkbox" class="theme-switch__checkbox" id="theme-toggle">
+                <div class="theme-switch__container">
+                    <div class="theme-switch__clouds"></div>
+                    <div class="theme-switch__stars-container">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 144 55" fill="none">
+                            <path fill-rule="evenodd" clip-rule="evenodd" d="M135.831 3.00688C135.055 3.85027 134.111 4.29946 133 4.35447C134.111 4.40947 135.055 4.85867 135.831 5.71123C136.607 6.55462 136.996 7.56303 136.996 8.72727C136.996 7.95722 137.172 7.25134 137.525 6.59129C137.886 5.93124 138.372 5.39954 138.98 5.00535C139.598 4.60199 140.268 4.39114 141 4.35447C139.88 4.2903 138.936 3.85027 138.16 3.00688C137.384 2.16348 136.996 1.16425 136.996 0C136.996 1.16425 136.607 2.16348 135.831 3.00688ZM31 23.3545C32.1114 23.2995 33.0551 22.8503 33.8313 22.0069C34.6075 21.1635 34.9956 20.1642 34.9956 19C34.9956 20.1642 35.3837 21.1635 36.1599 22.0069C36.9361 22.8503 37.8798 23.2903 39 23.3545C38.2679 23.3911 37.5976 23.602 36.9802 24.0053C36.3716 24.3995 35.8864 24.9312 35.5248 25.5913C35.172 26.2513 34.9956 26.9572 34.9956 27.7273C34.9956 26.563 34.6075 25.5546 33.8313 24.7112C33.0551 23.8587 32.1114 23.4095 31 23.3545ZM0 36.3545C1.11136 36.2995 2.05513 35.8503 2.83131 35.0069C3.6075 34.1635 3.99559 33.1642 3.99559 32C3.99559 33.1642 4.38368 34.1635 5.15987 35.0069C5.93605 35.8503 6.87982 36.2903 8 36.3545C7.26792 36.3911 6.59757 36.602 5.98015 37.0053C5.37155 37.3995 4.88644 37.9312 4.52481 38.5913C4.172 39.2513 3.99559 39.9572 3.99559 40.7273C3.99559 39.563 3.6075 38.5546 2.83131 37.7112C2.05513 36.8587 1.11136 36.4095 0 36.3545ZM56.8313 24.0069C56.0551 24.8503 55.1114 25.2995 54 25.3545C55.1114 25.4095 56.0551 25.8587 56.8313 26.7112C57.6075 27.5546 57.9956 28.563 57.9956 29.7273C57.9956 28.9572 58.172 28.2513 58.5248 27.5913C58.8864 26.9312 59.3716 26.3995 59.9802 26.0053C60.5976 25.602 61.2679 25.3911 62 25.3545C60.8798 25.2903 59.9361 24.8503 59.1599 24.0069C58.3837 23.1635 57.9956 22.1642 57.9956 21C57.9956 22.1642 57.6075 23.1635 56.8313 24.0069ZM81 25.3545C82.1114 25.2995 83.0551 24.8503 83.8313 24.0069C84.6075 23.1635 84.9956 22.1642 84.9956 21C84.9956 22.1642 85.3837 23.1635 86.1599 24.0069C86.9361 24.8503 87.8798 25.2903 89 25.3545C88.2679 25.3911 87.5976 25.602 86.9802 26.0053C86.3716 26.3995 85.8864 26.9312 85.5248 27.5913C85.172 28.2513 84.9956 28.9572 84.9956 29.7273C84.9956 28.563 84.6075 27.5546 83.8313 26.7112C83.0551 25.8587 82.1114 25.4095 81 25.3545ZM136 36.3545C137.111 36.2995 138.055 35.8503 138.831 35.0069C139.607 34.1635 139.996 33.1642 139.996 32C139.996 33.1642 140.384 34.1635 141.16 35.0069C141.936 35.8503 142.88 36.2903 144 36.3545C143.268 36.3911 142.598 36.602 141.98 37.0053C141.372 37.3995 140.886 37.9312 140.525 38.5913C140.172 39.2513 139.996 39.9572 139.996 40.7273C139.996 39.563 139.607 38.5546 138.831 37.7112C138.055 36.8587 137.111 36.4095 136 36.3545ZM101.831 49.0069C101.055 49.8503 100.111 50.2995 99 50.3545C100.111 50.4095 101.055 50.8587 101.831 51.7112C102.607 52.5546 102.996 53.563 102.996 54.7273C102.996 53.9572 103.172 53.2513 103.525 52.5913C103.886 51.9312 104.372 51.3995 104.98 51.0053C105.598 50.602 106.268 50.3911 107 50.3545C105.88 50.2903 104.936 49.8503 104.16 49.0069C103.384 48.1635 102.996 47.1642 102.996 46C102.996 47.1642 102.607 48.1635 101.831 49.0069Z" fill="currentColor"/>
+                        </svg>
+                    </div>
+                    <div class="theme-switch__circle-container">
+                        <div class="theme-switch__sun-moon-container">
+                            <div class="theme-switch__moon">
+                                <div class="theme-switch__spot"></div>
+                                <div class="theme-switch__spot"></div>
+                                <div class="theme-switch__spot"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </label>
         </div>
     </footer>
 
@@ -1170,7 +1631,18 @@
                 const item = this.media[this.currentIndex];
                 this.container.innerHTML = '';
 
-                if (item.type === 'video') {
+                if (item.type === 'youtube') {
+                    const videoId = item.src.match(/(?:v=|youtu\.be\/)([^&?/]+)/)?.[1];
+                    const wrapper = document.createElement('div');
+                    wrapper.style.cssText = 'position:relative;width:min(90vw,960px);aspect-ratio:16/9;border-radius:8px;overflow:hidden;';
+                    const iframe = document.createElement('iframe');
+                    iframe.src = `https://www.youtube.com/embed/${videoId}?autoplay=1`;
+                    iframe.allow = 'autoplay; encrypted-media; fullscreen';
+                    iframe.allowFullscreen = true;
+                    iframe.style.cssText = 'position:absolute;top:0;left:0;width:100%;height:100%;border:none;';
+                    wrapper.appendChild(iframe);
+                    this.container.appendChild(wrapper);
+                } else if (item.type === 'video') {
                     const video = document.createElement('video');
                     video.src = item.src;
                     video.controls = true;
@@ -1235,9 +1707,9 @@
 
             pauseVideo() {
                 const video = this.container.querySelector('video');
-                if (video && !video.paused) {
-                    video.pause();
-                }
+                if (video && !video.paused) video.pause();
+                const iframe = this.container.querySelector('iframe');
+                if (iframe) iframe.src = iframe.src; // reload stops playback
             }
         }
 
@@ -1288,7 +1760,20 @@
                         modal.open(this.media, index);
                     });
                     
-                    if (item.type === 'video') {
+                    if (item.type === 'youtube') {
+                        const thumb = document.createElement('img');
+                        const videoId = item.src.match(/(?:v=|youtu\.be\/)([^&?/]+)/)?.[1];
+                        thumb.src = `https://img.youtube.com/vi/${videoId}/hqdefault.jpg`;
+                        thumb.alt = 'YouTube video thumbnail';
+                        thumb.style.width = '100%';
+                        thumb.style.height = '100%';
+                        thumb.style.objectFit = 'cover';
+                        const playBtn = document.createElement('div');
+                        playBtn.className = 'play-button';
+                        playBtn.innerHTML = '<svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>';
+                        mediaItem.appendChild(thumb);
+                        mediaItem.appendChild(playBtn);
+                    } else if (item.type === 'video') {
                         const video = document.createElement('video');
                         video.src = item.src;
                         video.muted = true;
@@ -1428,6 +1913,45 @@
                 }
             });
         });
+
+        // ── Scroll to project from hash ───────────────────────────
+        (function() {
+            const hash = window.location.hash;
+            if (!hash) return;
+            const target = document.querySelector(hash);
+            if (!target) return;
+            setTimeout(() => {
+                target.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                target.classList.add('highlight-row');
+                setTimeout(() => target.classList.remove('highlight-row'), 2000);
+            }, 300);
+        })();
+
+        // ── Theme Toggle ──────────────────────────────────────────
+        (function() {
+            const toggle = document.getElementById('theme-toggle');
+            if (!toggle) return;
+
+            // checked = dark (night sky), unchecked = light (day sky)
+            const saved = localStorage.getItem('theme') || 'light';
+            if (saved === 'light') {
+                document.body.classList.add('light-theme');
+                toggle.checked = false;
+            } else {
+                document.body.classList.remove('light-theme');
+                toggle.checked = true;
+            }
+
+            toggle.addEventListener('change', function() {
+                if (this.checked) {
+                    document.body.classList.remove('light-theme');
+                    localStorage.setItem('theme', 'dark');
+                } else {
+                    document.body.classList.add('light-theme');
+                    localStorage.setItem('theme', 'light');
+                }
+            });
+        })();
     </script>
 </body>
 </html>
