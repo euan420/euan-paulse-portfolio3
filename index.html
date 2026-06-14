@@ -173,7 +173,8 @@
         }
 
         /* Floating shapes */
-        .hero-shapes {
+        /* ─── Hero Grid ───────────────────────────────────────────── */
+        .hero-grid-wrap {
             position: absolute;
             inset: 0;
             overflow: hidden;
@@ -181,98 +182,57 @@
             z-index: 0;
         }
 
-        .hero-shape {
+        .hero-grid-canvas {
             position: absolute;
-            opacity: 0.5;
+            inset: 0;
+            width: 100%;
+            height: 100%;
         }
 
-        /* Large thin circle — top right, teal tint in dark */
-        .hero-shape-1 {
-            width: 420px;
-            height: 420px;
+        #hero-grid-base  { opacity: 0.06; }
+        .hero-grid-reveal { opacity: 0.45; }
+
+        .hero-blobs {
+            position: absolute;
+            inset: 0;
+            pointer-events: none;
+        }
+
+        .hero-blob {
+            position: absolute;
             border-radius: 50%;
-            border: 2px solid var(--mint-dim);
-            top: -5%;
-            right: 2%;
-            background: transparent;
-            animation: float 12s ease-in-out infinite;
+            filter: blur(100px);
         }
 
-        /* Small lavender filled blob — overlapping the large circle */
-        .hero-shape-2 {
-            width: 130px;
-            height: 130px;
-            border-radius: 50%;
-            top: 22%;
-            right: 20%;
-            background: rgba(180, 170, 220, 0.35);
-            border: none;
-            animation: float 10s ease-in-out infinite;
-            animation-delay: -3s;
+        /* Dark mode blobs */
+        .hero-blob-1 {
+            width: 42%; height: 56%;
+            top: -18%; right: -8%;
+            background: rgba(45, 212, 191, 0.12);
+        }
+        .hero-blob-2 {
+            width: 22%; height: 30%;
+            top: -8%; right: 16%;
+            background: rgba(45, 212, 191, 0.07);
+        }
+        .hero-blob-3 {
+            width: 38%; height: 52%;
+            bottom: -20%; left: -8%;
+            background: rgba(59, 130, 246, 0.08);
         }
 
-        /* Second large thin circle — lower, overlapping first */
-        .hero-shape-3 {
-            width: 340px;
-            height: 340px;
-            border-radius: 50%;
-            border: 2px solid rgba(180, 160, 130, 0.35);
-            top: 38%;
-            right: 8%;
-            background: transparent;
-            animation: floatReverse 14s ease-in-out infinite;
-            animation-delay: -5s;
+        /* Light mode blobs */
+        body.light-theme .hero-blob-1 {
+            background: rgba(196, 150, 100, 0.18);
+            top: -15%; right: -5%;
         }
-
-        /* Thin-stroked rectangle — bottom right corner */
-        .hero-shape-4 {
-            width: 200px;
-            height: 200px;
-            border-radius: 0;
-            border: 2px solid rgba(180, 160, 130, 0.28);
-            bottom: 8%;
-            right: 6%;
-            background: transparent;
-            animation: float 16s ease-in-out infinite;
-            animation-delay: -7s;
-        }
-
-        /* Dark mode — keep mint tint on circles */
-        body:not(.light-theme) .hero-shape-1 {
-            border-color: var(--mint-dim);
-        }
-
-        body:not(.light-theme) .hero-shape-3 {
-            border-color: var(--mint-dim);
-            opacity: 0.25;
-        }
-
-        body:not(.light-theme) .hero-shape-4 {
-            border-color: var(--mint-dim);
-            opacity: 0.2;
-        }
-
-        body:not(.light-theme) .hero-shape-2 {
-            background: var(--mint-dim);
-        }
-
-        /* Light mode — warm soft tones matching reference */
-        body.light-theme .hero-shape-1 {
-            border-color: rgba(45, 180, 170, 0.3);
-            background: radial-gradient(circle, rgba(45, 180, 170, 0.05) 0%, transparent 70%);
-        }
-
-        body.light-theme .hero-shape-2 {
+        body.light-theme .hero-blob-2 {
             background: rgba(180, 170, 220, 0.3);
+            filter: blur(60px);
+            width: 18%; height: 24%;
         }
-
-        body.light-theme .hero-shape-3 {
-            border-color: rgba(196, 150, 100, 0.35);
-            background: radial-gradient(circle, rgba(196, 150, 100, 0.04) 0%, transparent 70%);
-        }
-
-        body.light-theme .hero-shape-4 {
-            border-color: rgba(196, 150, 100, 0.3);
+        body.light-theme .hero-blob-3 {
+            background: rgba(45, 180, 170, 0.08);
         }
 
         /* Animated hero elements */
@@ -1004,6 +964,7 @@
             border-radius: 24px;
             padding: 48px;
             position: relative;
+            box-sizing: border-box;
         }
 
         .testimonial-card::before {
@@ -1308,7 +1269,64 @@
         }
 
         /* Responsive */
-        /* ─── Light Theme ─────────────────────────────────────────── */
+        /* Education block glow + CTA button */
+        .education-block {
+            position: relative;
+            transition: all 0.3s ease, box-shadow 0.5s ease !important;
+        }
+
+        .education-block.in-view {
+            box-shadow: 0 0 0 1.5px var(--mint), 0 0 24px var(--mint-glow) !important;
+            border-color: var(--mint) !important;
+        }
+
+        .education-cta {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 8px 18px;
+            border-radius: 20px;
+            border: 1px solid var(--mint);
+            background: var(--mint-dim);
+            color: var(--mint);
+            font-family: 'DM Sans', sans-serif;
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            letter-spacing: 0.02em;
+            transition: all 0.3s ease;
+            animation: educationPulse 2s ease-in-out infinite;
+            align-self: center;
+            margin: 0 auto;
+        }
+
+        .education-cta:hover {
+            background: var(--mint);
+            color: var(--ink);
+            transform: translateY(-1px);
+            animation: none;
+        }
+
+        @keyframes educationPulse {
+            0%, 100% { box-shadow: 0 0 0 0 var(--mint-glow); }
+            50%       { box-shadow: 0 0 0 6px transparent; }
+        }
+
+        body.light-theme .education-cta {
+            color: #8B5E3C;
+            border-color: #8B5E3C;
+            background: rgba(139, 94, 60, 0.08);
+        }
+
+        body.light-theme .education-cta:hover {
+            background: #8B5E3C;
+            color: #f5f0e8;
+        }
+
+        body.light-theme .education-block.in-view {
+            box-shadow: 0 0 0 1.5px #8B5E3C, 0 0 24px rgba(139, 94, 60, 0.2) !important;
+            border-color: #8B5E3C !important;
+        }
         body.light-theme {
             --ink: #f5f0e8;
             --ink-light: #ede8df;
@@ -1508,11 +1526,11 @@
 
         /* Preserve gold/white link behaviour in light mode */
         body.light-theme .about-content a.gold-link {
-            color: var(--gold);
+            color: #b91c1c;
         }
 
         body.light-theme .about-content a.gold-link::after {
-            background: var(--gold);
+            background: #b91c1c;
         }
 
         body.light-theme .about-content a.white-link {
@@ -1520,11 +1538,11 @@
         }
 
         body.light-theme .about-content a.white-link::after {
-            background: var(--gold);
+            background: #b91c1c;
         }
 
         body.light-theme .about-content a.white-link:hover {
-            color: var(--gold);
+            color: #b91c1c;
         }
 
         body.light-theme .about-content a.white-link.partner-dimmed,
@@ -1757,31 +1775,9 @@
                 order: -1;
             }
 
-            .hero-shapes {
-                opacity: 0.3;
-            }
 
-            .hero-shape-1 {
-                width: 280px;
-                height: 280px;
-                right: -5%;
-            }
 
-            .hero-shape-2 {
-                width: 90px;
-                height: 90px;
-                right: 10%;
-            }
 
-            .hero-shape-3 {
-                width: 220px;
-                height: 220px;
-            }
-
-            .hero-shape-4 {
-                width: 130px;
-                height: 130px;
-            }
         }
 
         /* Mobile */
@@ -1823,9 +1819,7 @@
                 max-width: 100%;
             }
 
-            .hero-shapes {
-                display: none;
-            }
+
 
             .hero-cta {
                 flex-direction: column;
@@ -2236,12 +2230,18 @@
 
     <!-- Hero Section -->
     <section class="hero">
-        <!-- Floating shapes -->
-        <div class="hero-shapes">
-            <div class="hero-shape hero-shape-1"></div>
-            <div class="hero-shape hero-shape-2"></div>
-            <div class="hero-shape hero-shape-3"></div>
-            <div class="hero-shape hero-shape-4"></div>
+        <!-- Infinite grid background -->
+        <div class="hero-grid-wrap">
+            <!-- Base static grid layer -->
+            <canvas class="hero-grid-canvas" id="hero-grid-base"></canvas>
+            <!-- Mouse-reveal grid layer -->
+            <canvas class="hero-grid-canvas hero-grid-reveal" id="hero-grid-reveal"></canvas>
+            <!-- Coloured blobs -->
+            <div class="hero-blobs">
+                <div class="hero-blob hero-blob-1"></div>
+                <div class="hero-blob hero-blob-2"></div>
+                <div class="hero-blob hero-blob-3"></div>
+            </div>
         </div>
 
         <span class="hero-label">Community & Marketing Manager</span>
@@ -2283,7 +2283,7 @@
 
         <div class="about-grid">
             <div class="about-content">
-                <p>I entered Web3 at 17, built my expertise from the ground up, and progressed into leadership roles through consistent performance. Since 2022, I've worked on <strong>25+ brands and projects</strong> across across Solana and broader ecosystems, contributing through community management, outreach & partnerships development, moderation and social media campaigns.</p>
+                <p>I entered Web3 at 17, built my expertise from the ground up, and progressed into leadership roles through consistent performance. Since 2022, I've worked on <strong>25+ brands and projects</strong> across Solana and broader ecosystems, contributing through community management, outreach & partnerships development, moderation and social media campaigns.</p>
 
                 <p>I am a <strong>BCom Marketing Management graduate</strong>, allowing me to combine strategic marketing principles with hands-on community execution.</p>
 
@@ -2302,20 +2302,20 @@
                             <div class="info-value">South Africa</div>
                         </div>
                     </div>
-                    <div class="info-block" onclick="window.open('https://www.mancosa.co.za/', '_blank')" style="cursor: pointer;">
-                        <div class="info-icon">
-                            <img src="mancosa-logo.jpg" alt="MANCOSA logo">
+                    <div class="info-block education-block" onclick="window.open('https://www.mancosa.co.za/', '_blank')" style="cursor: pointer; flex-direction: column; align-items: flex-start; gap: 12px;">
+                        <div style="display: flex; align-items: center; gap: 14px; width: 100%;">
+                            <div class="info-icon">
+                                <img src="mancosa-logo.jpg" alt="MANCOSA logo">
+                            </div>
+                            <div class="info-content">
+                                <div class="info-label">Education</div>
+                                <div class="info-value">Bachelor of Commerce in Marketing Management</div>
+                                <div style="font-size: 12px; font-weight: 400; opacity: 0.6; margin-top: 2px;">MANCOSA</div>
+                            </div>
                         </div>
-                        <div class="info-content">
-                            <div class="info-label">Education</div>
-                            <div class="info-value">Bachelor of Commerce in Marketing Management</div>
-                            <div style="font-size: 12px; font-weight: 400; opacity: 0.6; margin-top: 2px;">MANCOSA</div>
-                        </div>
-                        <svg class="info-link-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                            <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
-                            <polyline points="15 3 21 3 21 9"></polyline>
-                            <line x1="10" y1="14" x2="21" y2="3"></line>
-                        </svg>
+                        <button class="education-cta" onclick="event.stopPropagation(); window.open('https://www.mancosa.co.za/certificates/?key=89CE075AA38886BE76D7F6A7E82C6BA273FA071FA2275D954DB9431D1AF59273VlN3NUhKUXpxUVVPbmxQeVZ1RTRwYS9kZjFGcy96S2lIUlZNWTEwVk5Ca3VveWgz', '_blank')">
+                            View Certification ↗
+                        </button>
                     </div>
                 </div>
             </div>
@@ -2348,20 +2348,20 @@
                             <div class="info-value">South Africa</div>
                         </div>
                     </div>
-                    <div class="info-block" onclick="window.open('https://www.mancosa.co.za/', '_blank')" style="cursor: pointer;">
-                        <div class="info-icon">
-                            <img src="mancosa-logo.jpg" alt="MANCOSA logo">
+                    <div class="info-block education-block" onclick="window.open('https://www.mancosa.co.za/', '_blank')" style="cursor: pointer; flex-direction: column; align-items: flex-start; gap: 12px;">
+                        <div style="display: flex; align-items: center; gap: 14px; width: 100%;">
+                            <div class="info-icon">
+                                <img src="mancosa-logo.jpg" alt="MANCOSA logo">
+                            </div>
+                            <div class="info-content">
+                                <div class="info-label">Education</div>
+                                <div class="info-value">Bachelor of Commerce in Marketing Management</div>
+                                <div style="font-size: 12px; font-weight: 400; opacity: 0.6; margin-top: 2px;">MANCOSA</div>
+                            </div>
                         </div>
-                        <div class="info-content">
-                            <div class="info-label">Education</div>
-                            <div class="info-value">Bachelor of Commerce in Marketing Management</div>
-                            <div style="font-size: 12px; font-weight: 400; opacity: 0.6; margin-top: 2px;">MANCOSA</div>
-                        </div>
-                        <svg class="info-link-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                            <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
-                            <polyline points="15 3 21 3 21 9"></polyline>
-                            <line x1="10" y1="14" x2="21" y2="3"></line>
-                        </svg>
+                        <button class="education-cta" onclick="event.stopPropagation(); window.open('https://www.mancosa.co.za/certificates/?key=89CE075AA38886BE76D7F6A7E82C6BA273FA071FA2275D954DB9431D1AF59273VlN3NUhKUXpxUVVPbmxQeVZ1RTRwYS9kZjFGcy96S2lIUlZNWTEwVk5Ca3VveWgz', '_blank')">
+                            View Certification ↗
+                        </button>
                     </div>
                 </div>
             </div>
@@ -2835,8 +2835,15 @@
         function updateSlider() {
             const track = document.getElementById('testimonials-track');
             const dots = document.querySelectorAll('.testimonial-dot');
+            const card = track.querySelector('.testimonial-card');
+            if (!card) return;
 
-            track.style.transform = `translateX(-${currentIndex * 100}%)`;
+            // Card width + gap between cards
+            const cardWidth = card.offsetWidth + 32;
+            const maxIndex = testimonials.length - 1;
+            if (currentIndex > maxIndex) currentIndex = maxIndex;
+
+            track.style.transform = `translateX(-${currentIndex * cardWidth}px)`;
             dots.forEach((d, i) => d.classList.toggle('active', i === currentIndex));
         }
 
@@ -2851,6 +2858,10 @@
             clearInterval(autoPlayInterval);
             startAutoPlay();
         }
+
+        window.addEventListener('resize', () => {
+            updateSlider();
+        });
 
         // Navigation scroll effect
         const nav = document.getElementById('nav');
@@ -3032,6 +3043,127 @@
 
         // Initialize
         document.addEventListener('DOMContentLoaded', initTestimonials);
+
+        // ── Infinite Hero Grid ────────────────────────────────────
+        (function() {
+            const CELL = 40;
+            let offsetX = 0, offsetY = 0;
+            let mouseX = -9999, mouseY = -9999;
+            const RADIUS = 280;
+
+            const baseCanvas  = document.getElementById('hero-grid-base');
+            const revealCanvas = document.getElementById('hero-grid-reveal');
+            if (!baseCanvas || !revealCanvas) return;
+
+            const hero = baseCanvas.closest('.hero') || baseCanvas.parentElement.parentElement;
+
+            function resize() {
+                const w = hero.offsetWidth;
+                const h = hero.offsetHeight;
+                [baseCanvas, revealCanvas].forEach(c => {
+                    c.width  = w;
+                    c.height = h;
+                });
+            }
+            resize();
+            window.addEventListener('resize', resize);
+
+            // Track mouse inside hero
+            hero.addEventListener('mousemove', (e) => {
+                const rect = hero.getBoundingClientRect();
+                mouseX = e.clientX - rect.left;
+                mouseY = e.clientY - rect.top;
+            });
+            hero.addEventListener('mouseleave', () => {
+                mouseX = -9999;
+                mouseY = -9999;
+            });
+
+            function getGridColor() {
+                return document.body.classList.contains('light-theme')
+                    ? '#1a1008'
+                    : '#ffffff';
+            }
+
+            function drawGrid(ctx, ox, oy, color) {
+                const w = ctx.canvas.width;
+                const h = ctx.canvas.height;
+                ctx.clearRect(0, 0, w, h);
+                ctx.strokeStyle = color;
+                ctx.lineWidth = 1;
+                ctx.beginPath();
+                const startX = (ox % CELL) - CELL;
+                const startY = (oy % CELL) - CELL;
+                for (let x = startX; x < w + CELL; x += CELL) {
+                    ctx.moveTo(x, 0);
+                    ctx.lineTo(x, h);
+                }
+                for (let y = startY; y < h + CELL; y += CELL) {
+                    ctx.moveTo(0, y);
+                    ctx.lineTo(w, y);
+                }
+                ctx.stroke();
+            }
+
+            function applyRevealMask() {
+                const ctx = revealCanvas.getContext('2d');
+                const w   = revealCanvas.width;
+                const h   = revealCanvas.height;
+                const color = getGridColor();
+
+                ctx.clearRect(0, 0, w, h);
+
+                // Draw grid into offscreen
+                const off = document.createElement('canvas');
+                off.width = w; off.height = h;
+                drawGrid(off.getContext('2d'), offsetX, offsetY, color);
+
+                // Radial mask
+                const grad = ctx.createRadialGradient(mouseX, mouseY, 0, mouseX, mouseY, RADIUS);
+                grad.addColorStop(0,   'rgba(0,0,0,1)');
+                grad.addColorStop(0.7, 'rgba(0,0,0,0.5)');
+                grad.addColorStop(1,   'rgba(0,0,0,0)');
+
+                ctx.save();
+                ctx.globalCompositeOperation = 'source-over';
+                ctx.drawImage(off, 0, 0);
+                ctx.globalCompositeOperation = 'destination-in';
+                ctx.fillStyle = grad;
+                ctx.fillRect(0, 0, w, h);
+                ctx.restore();
+            }
+
+            let lastTime = 0;
+            function loop(ts) {
+                const dt = ts - lastTime;
+                lastTime = ts;
+                offsetX = (offsetX + 0.5 * (dt / 16.67)) % CELL;
+                offsetY = (offsetY + 0.5 * (dt / 16.67)) % CELL;
+
+                const color = getGridColor();
+                drawGrid(baseCanvas.getContext('2d'), offsetX, offsetY, color);
+                applyRevealMask();
+
+                requestAnimationFrame(loop);
+            }
+            requestAnimationFrame(loop);
+        })();
+
+        // ── Education block glow on scroll ────────────────────────
+        (function() {
+            const blocks = document.querySelectorAll('.education-block');
+            if (!blocks.length) return;
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(e => {
+                    if (e.isIntersecting) {
+                        e.target.classList.add('in-view');
+                    } else {
+                        e.target.classList.remove('in-view');
+                    }
+                });
+            }, { threshold: 0.4 });
+            blocks.forEach(b => observer.observe(b));
+        })();
 
         // ── Theme Toggle ──────────────────────────────────────────
         (function() {
